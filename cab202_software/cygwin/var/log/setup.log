@@ -1,0 +1,298 @@
+2016/02/22 11:35:48 Starting cygwin install, version 2.873
+2016/02/22 11:35:48 User has backup/restore rights
+2016/02/22 11:35:48 Current Directory: C:\Users\n7202563\Desktop\cygwin_test\packages
+2016/02/22 11:35:48 Could not open service McShield for query, start and stop. McAfee may not be installed, or we don't have access.
+2016/02/22 11:35:52 source: network install
+2016/02/22 11:35:57 root: C:\Users\n7202563\Desktop\cygwin system
+2016/02/22 11:36:04 Selected local directory: C:\Users\n7202563\Desktop\cygwin_packages
+2016/02/22 11:36:07 net: Direct
+2016/02/22 11:36:20 site: http://lug.mtu.edu/cygwin/
+2016/02/22 11:36:29 io_stream_cygfile: fopen(/etc/setup/installed.db) failed 2 No such file or directory
+2016/02/22 11:36:29 io_stream_cygfile: fopen(/etc/setup/timestamp) failed 2 No such file or directory
+2016/02/22 11:36:39 Adding required dependency bzip2: Selecting version 1.0.6-2 for installation.
+2016/02/22 11:36:39 Adding required dependency ca-certificates: Selecting version 2.6-1 for installation.
+2016/02/22 11:36:39 Adding required dependency groff: Selecting version 1.22.3-1 for installation.
+2016/02/22 11:36:39 Adding required dependency less: Selecting version 481-1 for installation.
+2016/02/22 11:36:39 Adding required dependency libargp: Selecting version 20110921-2 for installation.
+2016/02/22 11:36:39 Adding required dependency libattr1: Selecting version 2.4.46-1 for installation.
+2016/02/22 11:36:39 Adding required dependency libblkid1: Selecting version 2.25.2-2 for installation.
+2016/02/22 11:36:39 Adding required dependency libbz2_1: Selecting version 1.0.6-2 for installation.
+2016/02/22 11:36:39 Adding required dependency libffi6: Selecting version 3.2.1-1 for installation.
+2016/02/22 11:36:39 Adding required dependency libgcc1: Selecting version 5.3.0-2 for installation.
+2016/02/22 11:36:39 Adding required dependency libgdbm4: Selecting version 1.8.3-20 for installation.
+2016/02/22 11:36:39 Adding required dependency libgmp10: Selecting version 6.1.0-3p1 for installation.
+2016/02/22 11:36:39 Adding required dependency libiconv: Selecting version 1.14-3 for installation.
+2016/02/22 11:36:39 Adding required dependency libiconv2: Selecting version 1.14-3 for installation.
+2016/02/22 11:36:39 Adding required dependency libintl8: Selecting version 0.19.5.1-2 for installation.
+2016/02/22 11:36:39 Adding required dependency liblzma5: Selecting version 5.2.2-1 for installation.
+2016/02/22 11:36:39 Adding required dependency libmpfr4: Selecting version 3.1.3-1 for installation.
+2016/02/22 11:36:39 Adding required dependency libncursesw10: Selecting version 6.0-2.20160123 for installation.
+2016/02/22 11:36:39 Adding required dependency libp11-kit0: Selecting version 0.22.1-1 for installation.
+2016/02/22 11:36:39 Adding required dependency libpcre1: Selecting version 8.38-1 for installation.
+2016/02/22 11:36:39 Adding required dependency libpipeline1: Selecting version 1.4.0-1 for installation.
+2016/02/22 11:36:39 Adding required dependency libsmartcols1: Selecting version 2.25.2-2 for installation.
+2016/02/22 11:36:39 Adding required dependency libstdc++6: Selecting version 5.3.0-2 for installation.
+2016/02/22 11:36:39 Adding required dependency libtasn1_6: Selecting version 4.7-1 for installation.
+2016/02/22 11:36:39 Adding required dependency libuuid1: Selecting version 2.25.2-2 for installation.
+2016/02/22 11:36:39 Adding required dependency lynx: Selecting version 2.8.7-1 for installation.
+2016/02/22 11:36:39 Adding required dependency p11-kit: Selecting version 0.22.1-1 for installation.
+2016/02/22 11:36:39 Adding required dependency p11-kit-trust: Selecting version 0.22.1-1 for installation.
+2016/02/22 11:36:39 Adding required dependency popt: Selecting version 1.16-1 for installation.
+2016/02/22 11:36:39 Adding required dependency xz: Selecting version 5.2.2-1 for installation.
+2016/02/22 11:36:39 Adding required dependency zlib0: Selecting version 1.2.8-3 for installation.
+2016/02/22 11:36:40 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/_autorebase/_autorebase-001003-1.tar.xz
+2016/02/22 11:36:42 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/alternatives/alternatives-1.3.30c-10.tar.bz2
+2016/02/22 11:36:42 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/base-cygwin/base-cygwin-3.8-1.tar.xz
+2016/02/22 11:36:44 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/base-files/base-files-4.2-4.tar.xz
+2016/02/22 11:36:48 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/bash/bash-4.3.42-4.tar.xz
+2016/02/22 11:36:51 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/bzip2/bzip2-1.0.6-2.tar.bz2
+2016/02/22 11:36:54 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/ca-certificates/ca-certificates-2.6-1.tar.xz
+2016/02/22 11:37:00 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/coreutils/coreutils-8.24-3.tar.xz
+2016/02/22 11:37:01 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/cygutils/cygutils-1.4.15-2.tar.xz
+2016/02/22 11:37:07 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/cygwin/cygwin-2.4.1-1.tar.xz
+2016/02/22 11:37:09 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/dash/dash-0.5.8-3.tar.xz
+2016/02/22 11:37:10 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/editrights/editrights-1.03-1.tar.xz
+2016/02/22 11:37:13 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/file/file-5.25-1.tar.xz
+2016/02/22 11:37:17 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/findutils/findutils-4.5.12-1.tar.xz
+2016/02/22 11:37:22 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gawk/gawk-4.1.3-1.tar.xz
+2016/02/22 11:37:23 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/getent/getent-2.18.90-4.tar.xz
+2016/02/22 11:37:25 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/grep/grep-2.21-2.tar.xz
+2016/02/22 11:37:31 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/groff/groff-1.22.3-1.tar.xz
+2016/02/22 11:37:32 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gzip/gzip-1.6-1.tar.xz
+2016/02/22 11:37:33 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/hostname/hostname-3.13-1.tar.bz2
+2016/02/22 11:37:37 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/texinfo/info/info-6.1-1.tar.xz
+2016/02/22 11:37:37 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/ipc-utils/ipc-utils-1.0-1.tar.bz2
+2016/02/22 11:37:39 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/less/less-481-1.tar.xz
+2016/02/22 11:37:41 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/libargp/libargp-20110921-2.tar.bz2
+2016/02/22 11:37:41 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/attr/libattr1/libattr1-2.4.46-1.tar.bz2
+2016/02/22 11:37:43 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/util-linux/libblkid1/libblkid1-2.25.2-2.tar.xz
+2016/02/22 11:37:44 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/bzip2/libbz2_1/libbz2_1-1.0.6-2.tar.bz2
+2016/02/22 11:37:45 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/libffi/libffi6/libffi6-3.2.1-1.tar.xz
+2016/02/22 11:37:47 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gcc/libgcc1/libgcc1-5.3.0-2.tar.xz
+2016/02/22 11:37:47 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gdbm/libgdbm4/libgdbm4-1.8.3-20.tar.bz2
+2016/02/22 11:37:50 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gmp/libgmp10/libgmp10-6.1.0-3p1.tar.xz
+2016/02/22 11:37:52 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/libiconv/libiconv-1.14-3.tar.xz
+2016/02/22 11:37:55 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/libiconv/libiconv2/libiconv2-1.14-3.tar.xz
+2016/02/22 11:37:56 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gettext/libintl8/libintl8-0.19.5.1-2.tar.xz
+2016/02/22 11:37:58 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/xz/liblzma5/liblzma5-5.2.2-1.tar.xz
+2016/02/22 11:38:00 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/mpfr/libmpfr4/libmpfr4-3.1.3-1.tar.xz
+2016/02/22 11:38:02 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/ncurses/libncursesw10/libncursesw10-6.0-2.20160123.tar.xz
+2016/02/22 11:38:07 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/openssl/libopenssl100/libopenssl100-1.0.2f-1.tar.xz
+2016/02/22 11:38:09 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/p11-kit/libp11-kit0/libp11-kit0-0.22.1-1.tar.xz
+2016/02/22 11:38:11 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/pcre/libpcre1/libpcre1-8.38-1.tar.xz
+2016/02/22 11:38:12 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/libpipeline/libpipeline1/libpipeline1-1.4.0-1.tar.xz
+2016/02/22 11:38:14 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/readline/libreadline7/libreadline7-6.3.8-1.tar.xz
+2016/02/22 11:38:15 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/util-linux/libsmartcols1/libsmartcols1-2.25.2-2.tar.xz
+2016/02/22 11:38:17 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gcc/libstdc++6/libstdc++6-5.3.0-2.tar.xz
+2016/02/22 11:38:18 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/libtasn1/libtasn1_6/libtasn1_6-4.7-1.tar.xz
+2016/02/22 11:38:19 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/util-linux/libuuid1/libuuid1-2.25.2-2.tar.xz
+2016/02/22 11:38:20 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/login/login-1.11-1.tar.xz
+2016/02/22 11:38:26 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/lynx/lynx-2.8.7-1.tar.bz2
+2016/02/22 11:38:30 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/man-db/man-db-2.7.4-1.tar.xz
+2016/02/22 11:38:32 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/mintty/mintty-2.2.3-0.tar.xz
+2016/02/22 11:38:34 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/ncurses/ncurses-6.0-2.20160123.tar.xz
+2016/02/22 11:38:38 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/openssl/openssl-1.0.2f-1.tar.xz
+2016/02/22 11:38:39 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/p11-kit/p11-kit-0.22.1-1.tar.xz
+2016/02/22 11:38:41 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/p11-kit/p11-kit-trust/p11-kit-trust-0.22.1-1.tar.xz
+2016/02/22 11:38:42 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/popt/popt-1.16-1.tar.xz
+2016/02/22 11:38:44 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/rebase/rebase-4.4.1-1.tar.bz2
+2016/02/22 11:38:45 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/run/run-1.3.4-2.tar.xz
+2016/02/22 11:38:48 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/sed/sed-4.2.2-3.tar.bz2
+2016/02/22 11:38:52 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/tar/tar-1.28-1.tar.xz
+2016/02/22 11:38:53 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/ncurses/terminfo/terminfo-6.0-2.20160123.tar.xz
+2016/02/22 11:38:56 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/tzcode/tzcode-2016a-1.tar.xz
+2016/02/22 11:39:01 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/util-linux/util-linux-2.25.2-2.tar.xz
+2016/02/22 11:39:04 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/vim/vim-minimal/vim-minimal-7.4.1278-1.tar.xz
+2016/02/22 11:39:05 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/which/which-2.20-2.tar.bz2
+2016/02/22 11:39:08 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/xz/xz-5.2.2-1.tar.xz
+2016/02/22 11:39:09 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/zlib/zlib0/zlib0-1.2.8-3.tar.xz
+2016/02/22 11:39:11 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/_autorebase/_autorebase-001003-1.tar.xz
+2016/02/22 11:39:11 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/alternatives/alternatives-1.3.30c-10.tar.bz2
+2016/02/22 11:39:12 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/base-cygwin/base-cygwin-3.8-1.tar.xz
+2016/02/22 11:39:12 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/base-files/base-files-4.2-4.tar.xz
+2016/02/22 11:39:12 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/bash/bash-4.3.42-4.tar.xz
+2016/02/22 11:39:13 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/bzip2/bzip2-1.0.6-2.tar.bz2
+2016/02/22 11:39:13 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/ca-certificates/ca-certificates-2.6-1.tar.xz
+2016/02/22 11:39:13 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/coreutils/coreutils-8.24-3.tar.xz
+2016/02/22 11:39:16 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/cygutils/cygutils-1.4.15-2.tar.xz
+2016/02/22 11:39:16 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/cygwin/cygwin-2.4.1-1.tar.xz
+2016/02/22 11:39:17 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/dash/dash-0.5.8-3.tar.xz
+2016/02/22 11:39:17 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/editrights/editrights-1.03-1.tar.xz
+2016/02/22 11:39:17 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/file/file-5.25-1.tar.xz
+2016/02/22 11:39:17 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/findutils/findutils-4.5.12-1.tar.xz
+2016/02/22 11:39:18 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gawk/gawk-4.1.3-1.tar.xz
+2016/02/22 11:39:18 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/getent/getent-2.18.90-4.tar.xz
+2016/02/22 11:39:18 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/grep/grep-2.21-2.tar.xz
+2016/02/22 11:39:19 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/groff/groff-1.22.3-1.tar.xz
+2016/02/22 11:39:23 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gzip/gzip-1.6-1.tar.xz
+2016/02/22 11:39:23 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/hostname/hostname-3.13-1.tar.bz2
+2016/02/22 11:39:23 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/texinfo/info/info-6.1-1.tar.xz
+2016/02/22 11:39:23 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/ipc-utils/ipc-utils-1.0-1.tar.bz2
+2016/02/22 11:39:23 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/less/less-481-1.tar.xz
+2016/02/22 11:39:23 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/libargp/libargp-20110921-2.tar.bz2
+2016/02/22 11:39:23 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/attr/libattr1/libattr1-2.4.46-1.tar.bz2
+2016/02/22 11:39:23 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/util-linux/libblkid1/libblkid1-2.25.2-2.tar.xz
+2016/02/22 11:39:23 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/bzip2/libbz2_1/libbz2_1-1.0.6-2.tar.bz2
+2016/02/22 11:39:23 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/libffi/libffi6/libffi6-3.2.1-1.tar.xz
+2016/02/22 11:39:23 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gcc/libgcc1/libgcc1-5.3.0-2.tar.xz
+2016/02/22 11:39:23 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gdbm/libgdbm4/libgdbm4-1.8.3-20.tar.bz2
+2016/02/22 11:39:23 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gmp/libgmp10/libgmp10-6.1.0-3p1.tar.xz
+2016/02/22 11:39:23 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/libiconv/libiconv-1.14-3.tar.xz
+2016/02/22 11:39:24 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/libiconv/libiconv2/libiconv2-1.14-3.tar.xz
+2016/02/22 11:39:24 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gettext/libintl8/libintl8-0.19.5.1-2.tar.xz
+2016/02/22 11:39:24 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/xz/liblzma5/liblzma5-5.2.2-1.tar.xz
+2016/02/22 11:39:24 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/mpfr/libmpfr4/libmpfr4-3.1.3-1.tar.xz
+2016/02/22 11:39:24 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/ncurses/libncursesw10/libncursesw10-6.0-2.20160123.tar.xz
+2016/02/22 11:39:24 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/openssl/libopenssl100/libopenssl100-1.0.2f-1.tar.xz
+2016/02/22 11:39:24 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/p11-kit/libp11-kit0/libp11-kit0-0.22.1-1.tar.xz
+2016/02/22 11:39:24 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/pcre/libpcre1/libpcre1-8.38-1.tar.xz
+2016/02/22 11:39:24 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/libpipeline/libpipeline1/libpipeline1-1.4.0-1.tar.xz
+2016/02/22 11:39:24 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/readline/libreadline7/libreadline7-6.3.8-1.tar.xz
+2016/02/22 11:39:25 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/util-linux/libsmartcols1/libsmartcols1-2.25.2-2.tar.xz
+2016/02/22 11:39:25 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gcc/libstdc++6/libstdc++6-5.3.0-2.tar.xz
+2016/02/22 11:39:25 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/libtasn1/libtasn1_6/libtasn1_6-4.7-1.tar.xz
+2016/02/22 11:39:25 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/util-linux/libuuid1/libuuid1-2.25.2-2.tar.xz
+2016/02/22 11:39:25 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/login/login-1.11-1.tar.xz
+2016/02/22 11:39:25 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/lynx/lynx-2.8.7-1.tar.bz2
+2016/02/22 11:39:26 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/man-db/man-db-2.7.4-1.tar.xz
+2016/02/22 11:39:27 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/mintty/mintty-2.2.3-0.tar.xz
+2016/02/22 11:39:27 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/ncurses/ncurses-6.0-2.20160123.tar.xz
+2016/02/22 11:39:27 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/openssl/openssl-1.0.2f-1.tar.xz
+2016/02/22 11:39:28 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/p11-kit/p11-kit-0.22.1-1.tar.xz
+2016/02/22 11:39:28 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/p11-kit/p11-kit-trust/p11-kit-trust-0.22.1-1.tar.xz
+2016/02/22 11:39:28 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/popt/popt-1.16-1.tar.xz
+2016/02/22 11:39:28 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/rebase/rebase-4.4.1-1.tar.bz2
+2016/02/22 11:39:28 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/run/run-1.3.4-2.tar.xz
+2016/02/22 11:39:28 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/sed/sed-4.2.2-3.tar.bz2
+2016/02/22 11:39:29 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/tar/tar-1.28-1.tar.xz
+2016/02/22 11:39:29 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/ncurses/terminfo/terminfo-6.0-2.20160123.tar.xz
+2016/02/22 11:39:30 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/tzcode/tzcode-2016a-1.tar.xz
+2016/02/22 11:39:36 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/util-linux/util-linux-2.25.2-2.tar.xz
+2016/02/22 11:39:37 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/vim/vim-minimal/vim-minimal-7.4.1278-1.tar.xz
+2016/02/22 11:39:37 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/which/which-2.20-2.tar.bz2
+2016/02/22 11:39:37 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/xz/xz-5.2.2-1.tar.xz
+2016/02/22 11:39:38 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/zlib/zlib0/zlib0-1.2.8-3.tar.xz
+2016/02/22 11:39:38 Changing gid back to original
+2016/02/22 11:39:38 running: C:\Users\n7202563\Desktop\cygwin\bin\dash.exe "/etc/postinstall/0p_000_autorebase.dash"
+2016/02/22 11:39:42 running: C:\Users\n7202563\Desktop\cygwin\bin\dash.exe "/etc/postinstall/0p_update-info-dir.dash"
+2016/02/22 11:39:43 running: C:\Users\n7202563\Desktop\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/000-cygwin-post-install.sh"
+2016/02/22 11:39:43 running: C:\Users\n7202563\Desktop\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/coreutils.sh"
+2016/02/22 11:39:43 running: C:\Users\n7202563\Desktop\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/bash.sh"
+2016/02/22 11:39:44 running: C:\Users\n7202563\Desktop\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/base-files-mketc.sh"
+2016/02/22 11:39:44 running: C:\Users\n7202563\Desktop\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/base-files-profile.sh"
+2016/02/22 11:39:45 running: C:\Users\n7202563\Desktop\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/ca-certificates.sh"
+2016/02/22 11:39:46 running: C:\Users\n7202563\Desktop\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/lynx.sh"
+2016/02/22 11:39:46 running: C:\Users\n7202563\Desktop\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/man-db.sh"
+2016/02/22 11:39:47 running: C:\Users\n7202563\Desktop\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/mintty.sh"
+2016/02/22 11:39:47 Changing gid to Administrators
+2016/02/22 11:42:15 note: Installation Complete
+2016/02/22 11:42:15 Ending cygwin install
+2016/02/22 11:59:17 Starting cygwin install, version 2.873
+2016/02/22 11:59:17 User has backup/restore rights
+2016/02/22 11:59:17 Current Directory: C:\Users\n7202563\Desktop\cygwin_packages
+2016/02/22 11:59:17 Could not open service McShield for query, start and stop. McAfee may not be installed, or we don't have access.
+2016/02/22 11:59:24 source: from local dir
+2016/02/22 11:59:30 root: C:\Users\n7202563\Desktop\cygwin system
+2016/02/22 11:59:33 Selected local directory: C:\Users\n7202563\Desktop\cygwin_packages
+2016/02/22 12:00:57 Ending cygwin install
+2016/02/22 12:02:31 Starting cygwin install, version 2.873
+2016/02/22 12:02:31 User has backup/restore rights
+2016/02/22 12:02:31 Current Directory: C:\Users\n7202563\Desktop\cygwin_packages
+2016/02/22 12:02:31 Could not open service McShield for query, start and stop. McAfee may not be installed, or we don't have access.
+2016/02/22 12:02:37 source: network install
+2016/02/22 12:02:42 root: C:\Users\n7202563\Desktop\cygwin system
+2016/02/22 12:02:42 Selected local directory: C:\Users\n7202563\Desktop\cygwin_packages
+2016/02/22 12:02:43 net: Direct
+2016/02/22 12:02:46 site: http://lug.mtu.edu/cygwin/
+2016/02/22 12:04:33 Adding required dependency binutils: Selecting version 2.25-4 for installation.
+2016/02/22 12:04:33 Adding required dependency crypt: Selecting version 1.2-1 for installation.
+2016/02/22 12:04:33 Adding required dependency cygwin-devel: Selecting version 2.4.1-1 for installation.
+2016/02/22 12:04:33 Adding required dependency libatomic1: Selecting version 5.3.0-2 for installation.
+2016/02/22 12:04:33 Adding required dependency libcharset1: Selecting version 1.14-3 for installation.
+2016/02/22 12:04:33 Adding required dependency libcloog-isl4: Selecting version 0.18.0-2 for installation.
+2016/02/22 12:04:33 Adding required dependency libdb4.8: Selecting version 4.8.30-1 for installation.
+2016/02/22 12:04:33 Adding required dependency libexpat1: Selecting version 2.1.0-3 for installation.
+2016/02/22 12:04:33 Adding required dependency libgomp1: Selecting version 5.3.0-2 for installation.
+2016/02/22 12:04:33 Adding required dependency libguile17: Selecting version 1.8.8-1 for installation.
+2016/02/22 12:04:33 Adding required dependency libiconv-devel: Selecting version 1.14-3 for installation.
+2016/02/22 12:04:33 Adding required dependency libintl-devel: Selecting version 0.19.5.1-2 for installation.
+2016/02/22 12:04:33 Adding required dependency libisl10: Selecting version 0.11.1-2 for installation.
+2016/02/22 12:04:33 Adding required dependency libisl13: Selecting version 0.14.1-1 for installation.
+2016/02/22 12:04:33 Adding required dependency libltdl7: Selecting version 2.4.6-2 for installation.
+2016/02/22 12:04:33 Adding required dependency libmpc3: Selecting version 1.0.3-1 for installation.
+2016/02/22 12:04:33 Adding required dependency libquadmath0: Selecting version 5.3.0-2 for installation.
+2016/02/22 12:04:33 Adding required dependency libsqlite3_0: Selecting version 3.10.1-1 for installation.
+2016/02/22 12:04:33 Adding required dependency libssp0: Selecting version 5.3.0-2 for installation.
+2016/02/22 12:04:33 Adding required dependency libuuid-devel: Selecting version 2.25.2-2 for installation.
+2016/02/22 12:04:33 Adding required dependency libvtv0: Selecting version 5.3.0-2 for installation.
+2016/02/22 12:04:33 Adding required dependency python: Selecting version 2.7.10-1 for installation.
+2016/02/22 12:04:33 Adding required dependency w32api-headers: Selecting version 4.0.4-1 for installation.
+2016/02/22 12:04:33 Adding required dependency w32api-runtime: Selecting version 4.0.4-1 for installation.
+2016/02/22 12:04:33 Adding required dependency windows-default-manifest: Selecting version 6.4-1 for installation.
+2016/02/22 12:04:33 Adding required dependency zlib-devel: Selecting version 1.2.8-3 for installation.
+2016/02/22 12:04:40 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/binutils/binutils-2.25-4.tar.xz
+2016/02/22 12:04:41 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/crypt/crypt-1.2-1.tar.bz2
+2016/02/22 12:04:44 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/cygwin/cygwin-devel/cygwin-devel-2.4.1-1.tar.xz
+2016/02/22 12:04:57 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gcc/gcc-core/gcc-core-5.3.0-2.tar.xz
+2016/02/22 12:05:02 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gdb/gdb-7.10.1-1.tar.xz
+2016/02/22 12:05:03 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gcc/libatomic1/libatomic1-5.3.0-2.tar.xz
+2016/02/22 12:05:04 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/libiconv/libcharset1/libcharset1-1.14-3.tar.xz
+2016/02/22 12:05:05 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/cloog-isl/libcloog-isl4/libcloog-isl4-0.18.0-2.tar.bz2
+2016/02/22 12:05:09 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/db4.8/libdb4.8/libdb4.8-4.8.30-1.tar.bz2
+2016/02/22 12:05:11 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/expat/libexpat1/libexpat1-2.1.0-3.tar.bz2
+2016/02/22 12:05:12 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gcc/libgomp1/libgomp1-5.3.0-2.tar.xz
+2016/02/22 12:05:16 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/guile/libguile17/libguile17-1.8.8-1.tar.xz
+2016/02/22 12:05:19 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/libiconv/libiconv-devel/libiconv-devel-1.14-3.tar.xz
+2016/02/22 12:05:21 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gettext/libintl-devel/libintl-devel-0.19.5.1-2.tar.xz
+2016/02/22 12:05:23 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/isl/libisl10/libisl10-0.11.1-2.tar.bz2
+2016/02/22 12:05:26 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/isl/libisl13/libisl13-0.14.1-1.tar.xz
+2016/02/22 12:05:27 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/libtool/libltdl7/libltdl7-2.4.6-2.tar.xz
+2016/02/22 12:05:28 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/mpclib/libmpc3/libmpc3-1.0.3-1.tar.xz
+2016/02/22 12:05:31 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/ncurses/libncurses-devel/libncurses-devel-6.0-2.20160123.tar.xz
+2016/02/22 12:05:33 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gcc/libquadmath0/libquadmath0-5.3.0-2.tar.xz
+2016/02/22 12:05:36 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/sqlite3/libsqlite3_0/libsqlite3_0-3.10.1-1.tar.xz
+2016/02/22 12:05:36 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gcc/libssp0/libssp0-5.3.0-2.tar.xz
+2016/02/22 12:05:37 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/util-linux/libuuid-devel/libuuid-devel-2.25.2-2.tar.xz
+2016/02/22 12:05:38 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gcc/libvtv0/libvtv0-5.3.0-2.tar.xz
+2016/02/22 12:05:41 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/make/make-4.1-1.tar.xz
+2016/02/22 12:05:47 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/python/python-2.7.10-1.tar.xz
+2016/02/22 12:05:52 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/w32api-headers/w32api-headers-4.0.4-1.tar.xz
+2016/02/22 12:05:55 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/w32api-runtime/w32api-runtime-4.0.4-1.tar.xz
+2016/02/22 12:05:56 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/windows-default-manifest/windows-default-manifest-6.4-1.tar.xz
+2016/02/22 12:05:58 Downloaded C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/zlib/zlib-devel/zlib-devel-1.2.8-3.tar.xz
+2016/02/22 12:06:00 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/binutils/binutils-2.25-4.tar.xz
+2016/02/22 12:06:02 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/crypt/crypt-1.2-1.tar.bz2
+2016/02/22 12:06:02 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/cygwin/cygwin-devel/cygwin-devel-2.4.1-1.tar.xz
+2016/02/22 12:06:03 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gcc/gcc-core/gcc-core-5.3.0-2.tar.xz
+2016/02/22 12:06:06 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gdb/gdb-7.10.1-1.tar.xz
+2016/02/22 12:06:06 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gcc/libatomic1/libatomic1-5.3.0-2.tar.xz
+2016/02/22 12:06:06 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/libiconv/libcharset1/libcharset1-1.14-3.tar.xz
+2016/02/22 12:06:06 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/cloog-isl/libcloog-isl4/libcloog-isl4-0.18.0-2.tar.bz2
+2016/02/22 12:06:07 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/db4.8/libdb4.8/libdb4.8-4.8.30-1.tar.bz2
+2016/02/22 12:06:07 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/expat/libexpat1/libexpat1-2.1.0-3.tar.bz2
+2016/02/22 12:06:07 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gcc/libgomp1/libgomp1-5.3.0-2.tar.xz
+2016/02/22 12:06:07 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/guile/libguile17/libguile17-1.8.8-1.tar.xz
+2016/02/22 12:06:08 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/libiconv/libiconv-devel/libiconv-devel-1.14-3.tar.xz
+2016/02/22 12:06:08 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gettext/libintl-devel/libintl-devel-0.19.5.1-2.tar.xz
+2016/02/22 12:06:08 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/isl/libisl10/libisl10-0.11.1-2.tar.bz2
+2016/02/22 12:06:08 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/isl/libisl13/libisl13-0.14.1-1.tar.xz
+2016/02/22 12:06:08 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/libtool/libltdl7/libltdl7-2.4.6-2.tar.xz
+2016/02/22 12:06:08 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/mpclib/libmpc3/libmpc3-1.0.3-1.tar.xz
+2016/02/22 12:06:08 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/ncurses/libncurses-devel/libncurses-devel-6.0-2.20160123.tar.xz
+2016/02/22 12:06:12 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gcc/libquadmath0/libquadmath0-5.3.0-2.tar.xz
+2016/02/22 12:06:12 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/sqlite3/libsqlite3_0/libsqlite3_0-3.10.1-1.tar.xz
+2016/02/22 12:06:12 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gcc/libssp0/libssp0-5.3.0-2.tar.xz
+2016/02/22 12:06:12 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/util-linux/libuuid-devel/libuuid-devel-2.25.2-2.tar.xz
+2016/02/22 12:06:12 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/gcc/libvtv0/libvtv0-5.3.0-2.tar.xz
+2016/02/22 12:06:12 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/make/make-4.1-1.tar.xz
+2016/02/22 12:06:13 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/python/python-2.7.10-1.tar.xz
+2016/02/22 12:06:23 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/w32api-headers/w32api-headers-4.0.4-1.tar.xz
+2016/02/22 12:06:30 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/w32api-runtime/w32api-runtime-4.0.4-1.tar.xz
+2016/02/22 12:06:32 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/windows-default-manifest/windows-default-manifest-6.4-1.tar.xz
+2016/02/22 12:06:32 Extracting from file://C:\Users\n7202563\Desktop\cygwin_packages/http%3a%2f%2flug.mtu.edu%2fcygwin%2f/x86/release/zlib/zlib-devel/zlib-devel-1.2.8-3.tar.xz
+2016/02/22 12:06:32 Changing gid back to original
+2016/02/22 12:06:32 running: C:\Users\n7202563\Desktop\cygwin\bin\dash.exe "/etc/postinstall/0p_000_autorebase.dash"
+2016/02/22 12:06:35 running: C:\Users\n7202563\Desktop\cygwin\bin\dash.exe "/etc/postinstall/0p_update-info-dir.dash"
+2016/02/22 12:06:36 Changing gid to Administrators
+2016/02/22 12:37:14 note: Installation Complete
+2016/02/22 12:37:14 Ending cygwin install

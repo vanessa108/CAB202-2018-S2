@@ -1,0 +1,9 @@
+Exception: STATUS_ACCESS_VIOLATION at eip=6115F7F3
+eax=0061D51C ebx=00000000 ecx=0000000C edx=00000000 esi=0061D51C edi=00000000
+ebp=0061CA28 esp=0061CA24 program=C:\cab202\ams\4\-create_hist.exe, pid 11392, thread main
+cs=0023 ds=002B es=002B fs=0053 gs=002B ss=002B
+Stack trace:
+Frame     Function  Args
+0061CA28  6115F7F3 (00000000, 4009A2F0, 611BB0E0, 0061CC9C)
+0061CAE8  61159A66 (00000000, 00000000, 00000000, 00000000)
+End of stack trace
