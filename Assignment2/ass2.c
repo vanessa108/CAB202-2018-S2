@@ -268,6 +268,7 @@ void setupBlocks(void) {
 void startBlock (void) {
     sprite_init(&blocks[block_ctr], 79, 8, BLOCK_WIDTH, BLOCK_HEIGHT, safe_img); 
     block_ctr++;
+    currentBlock = block_ctr;
 }
 
 void setupHero(void) {
@@ -408,13 +409,7 @@ void setupGame(void) {
 }
 
 /** Game Mechanics **/
-int backlight = 300;
-void backlightFade(void) {
-    for (int i = 0; i < 6; i++) {
-        backlight -=50;
-    }
-    
-}
+
 void gameTimeMessage(void) {
     int now = current_time();
     int minutes = floor(now/60);
@@ -461,10 +456,31 @@ void pauseMessage(void) {
     usb_serial_send("\r\nFood in inventory: "); usb_serial_send_int((int) foodCount);
 }
 
-void heroRespawn(void) {
 
-    backlightFade();
+bool respawn;
+int LCD_Contrast = LCD_DEFAULT_CONTRAST;
+int contrast_ctr;
+void specialisedRespawn(void) {
+    if (respawn) {
+        if (contrast_ctr < 10) {
+            LCD_Contrast -= 3;
+            contrast_ctr++;
+        } else if (contrast_ctr >= 10 && contrast_ctr < 20 ) {
+            LCD_Contrast += 3;
+            contrast_ctr++;
+        } else if (contrast_ctr == 20) {
+            LCD_Contrast = LCD_DEFAULT_CONTRAST;
+            contrast_ctr = 0;
+            respawn = false;
+        }
+        usb_serial_send("\n");
+        usb_serial_send_int(contrast_ctr);
+    }
+}
+
+void heroRespawn(void) {
     free(&hero);
+    respawn = true;
     moveRight = false;
     moveLeft = false;
     setupHero();
@@ -602,12 +618,15 @@ void heroTreasure(void) {
 
 
 void heroFunctions(void) {
+    if (!respawn) {
+        heroControls();
+        heroMovement();
+    }
     heroGravity();;
-    heroControls();
-    heroMovement();
     heroOffscreen();
     heroTreasure();
     scoreOnBlock();
+    specialisedRespawn();
 }
 
 /** Zombie and Food **/
@@ -624,7 +643,7 @@ bool isZombieStanding(Sprite zomb) {
 }
 
 void zombieMessage(void) {
-    usb_serial_send("\nZombies spawning!");
+    usb_serial_send("\r\nZombies spawning!");
     usb_serial_send("\r\nNumber of zombies: "); usb_serial_send_int((int) zombieCount);
     gameTimeMessage();
     livesMessage();
@@ -632,7 +651,7 @@ void zombieMessage(void) {
 }
 
 void zombieFoodMessage(void) {
-    usb_serial_send("\nZombie collided with food");
+    usb_serial_send("\r\nZombie collided with food");
     usb_serial_send("\r\nNumber of zombies: "); usb_serial_send_int((int) zombieCount);
     usb_serial_send("\r\nFood in inventory: "); usb_serial_send_int((int) foodCount);
     gameTimeMessage();
@@ -666,16 +685,14 @@ void flashingLEDS(void) {
     }
 }
 
-void zombiesLanded(void) {
-    for (int i = 0; i < 5; i++) {
-        if (zombie[i].dy != 0) {
-            flashingLEDS();
-        }
-}
 
-double previousDrop = 0;;
-bool zombieTimer(void) {
+double previousDrop = 0;
+bool zombiesExist;
+bool zombiesFalling;
+int fallingMessage_ctr = 0;
+void zombieTimer(void) {
     if (zombieCount <= 0) {
+        fallingMessage_ctr = 0;
         previousDrop = current_time();
         zombieCount = 5;
         for (int i = 0; i < 5; i++) {
@@ -685,9 +702,16 @@ bool zombieTimer(void) {
     }
     int dropTime = current_time() - floor(previousDrop);
     if (dropTime >= 3) {
-        return true;
+        zombiesExist = true;
     } else {
-        return false;
+        zombiesExist = false;
+    }
+
+    if (dropTime >= 3 && dropTime <= 10) {
+        zombiesFalling = true;
+        fallingMessage_ctr++;
+    } else {
+        zombiesFalling = false;
     }
 }
 
@@ -790,16 +814,22 @@ void zombieOffscreen(void) {
 
 
 void zombieFunctions(void) { 
-    bool zombiesExist = zombieTimer();
+    zombieTimer();
     if (zombiesExist) {
         zombieGravity();
+    } 
+    if (zombiesFalling) {
+        flashingLEDS();
+    } else if (!zombiesFalling) {
+        clearLEDS();
+    }
+    if (fallingMessage_ctr == 1) {
+        zombieMessage();
     }
     zombieOffscreen();
     zombieMovement();
     zombieFoodCollision();
     zombieWrap();
-    //zombieSpawning();
-    flashingLEDS();
 }
 
 void dropFood(void) {
@@ -1194,12 +1224,13 @@ void introScreen(void) {
 }
 
 void process(void) {
+    lcd_init(LCD_Contrast);
     if (usb_serial_available()) {
         q = usb_serial_getchar(); 
     } else {
         q = 0;
     }
-    set_duty_cycle(backlight);
+    //set_duty_cycle(backlight);
     debounceButtons();
     readButtons(); 
     pause();
