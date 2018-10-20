@@ -271,7 +271,6 @@ void setupBlocks(void) {
 void startBlock (void) {
     sprite_init(&blocks[block_ctr], 79, 8, BLOCK_WIDTH, BLOCK_HEIGHT, safe_img); 
     block_ctr++;
-    currentBlock = block_ctr;
 }
 
 void setupHero(void) {
@@ -409,6 +408,7 @@ void setupGame(void) {
     setupFood();
     setupZombies();
     startSerialMessage();
+    previousBlock = block_ctr-1;
 }
 
 /** Game Mechanics **/
@@ -620,6 +620,19 @@ void heroTreasure(void) {
     }
 }
 
+void zombieHeroCollision(void) {
+    for (int i = 0; i < 5; i++) {
+        spritePos_t h = spritePos(hero);
+        spritePos_t z = spritePos(zombie[i]);
+        if (((h.left <= z.left && h.right >= z.left) || (h.right >= z.right && h.left <= z.right))
+        && (h.top <=  z.top && h.bottom >= z.top ) ) {
+            lives -= 1;
+            playerDeathMessage("Player collided with zombie");
+            heroRespawn();
+        }
+    }
+}
+
 
 
 void heroFunctions(void) {
@@ -631,6 +644,7 @@ void heroFunctions(void) {
     heroOffscreen();
     heroTreasure();
     scoreOnBlock();
+    zombieHeroCollision();
     specialisedRespawn();
 }
 
@@ -836,6 +850,12 @@ void zombieFunctions(void) {
     zombieFoodCollision();
     zombieWrap();
 }
+
+
+
+/* #############
+FOOD FUNCTIONS
+################*/
 
 void dropFood(void) {
     bool heroStand = isHeroStanding();
