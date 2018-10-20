@@ -479,8 +479,6 @@ void specialisedRespawn(void) {
             contrast_ctr = 0;
             respawn = false;
         }
-        usb_serial_send("\n");
-        usb_serial_send_int(contrast_ctr);
     }
 }
 
@@ -1130,6 +1128,7 @@ void gameoverMessage(void) {
 int endTime;
 void gameoverScreen(void) {
     while (wait) {
+        int c;
         char minuteS[15];
         char secondS[15];
         char scoreS[15];
@@ -1138,7 +1137,11 @@ void gameoverScreen(void) {
         sprintf(minuteS, "%02d", minutes);
         sprintf(secondS, "%02d", seconds);
         sprintf(scoreS, "%d", score);
-
+        if (usb_serial_available()) {
+            c = usb_serial_getchar(); 
+        } else {
+            c = 0;
+        }
         clear_screen();
 
         draw_string(25, 1, "GAME OVER", FG_COLOUR);
@@ -1151,11 +1154,11 @@ void gameoverScreen(void) {
         draw_string(0, 31, "SW2 to quit", FG_COLOUR);
         draw_string(0, 41, "SW3 to restart", FG_COLOUR);
         show_screen();
-        if (BIT_IS_SET(PINF, 5)) {
+        if (BIT_IS_SET(PINF, 5) || c == 'r') {
             restartGame();
             wait = false;
         }
-        if (BIT_IS_SET(PINF, 6)) {
+        if (BIT_IS_SET(PINF, 6) || c == 'q') {
             wait = false;
             end_game = true;
             clear_screen();
@@ -1219,9 +1222,15 @@ void zombieDisplay(void) {
     draw_string(50, 41, zombieS, FG_COLOUR);
 }
 
+int c;
 void pauseDisplay(void) {
     while (paused){
-        centrePress = false;
+        centrePress = false; 
+        if (usb_serial_available()) {
+            c = usb_serial_getchar(); 
+        } else {
+            c = 0;
+        }
         debounceButtons();
         clear_screen();
         livesDisplay();
@@ -1230,7 +1239,7 @@ void pauseDisplay(void) {
         foodDisplay();
         zombieDisplay();
         show_screen();
-        if (centrePress) {
+        if (centrePress || c == 'p') {
             pause_elapsed = current_time() - time_at_pause;
             paused = false;
         }
@@ -1241,11 +1250,23 @@ void pauseDisplay(void) {
 
 
 void introScreen(void) {
-   clear_screen();
-   draw_string(18, 11, "Vanessa Li", BG_COLOUR);
-   draw_string(20, 20, "n9966463", FG_COLOUR);
-   show_screen();
-   while (!BIT_IS_SET(PINF, 6)) {} 
+    bool intro = true;
+    int c;
+    clear_screen();
+    draw_string(18, 11, "Vanessa Li", BG_COLOUR);
+    draw_string(20, 20, "n9966463", FG_COLOUR);
+    show_screen();
+   while (intro) {
+       if (usb_serial_available()) {
+            c = usb_serial_getchar(); 
+        } else {
+            c = 0;
+        }
+        if (BIT_IS_SET(PINF, 6) || c == 's') {
+            intro = false;
+            break;
+        }
+   }
 }
 
 void process(void) {
