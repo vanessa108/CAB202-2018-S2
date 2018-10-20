@@ -93,6 +93,9 @@ int block_ctr = 0;
 bool movingRight = true;
 double block_speed;
 
+int previousBlock;
+int currentBlock;
+
 bool upPress;
 bool downPress;
 bool leftPress;
@@ -456,7 +459,7 @@ void pauseMessage(void) {
     usb_serial_send("\r\nFood in inventory: "); usb_serial_send_int((int) foodCount);
 }
 
-
+int backlight = 800;
 bool respawn;
 int LCD_Contrast = LCD_DEFAULT_CONTRAST;
 int contrast_ctr;
@@ -464,12 +467,15 @@ void specialisedRespawn(void) {
     if (respawn) {
         if (contrast_ctr < 10) {
             LCD_Contrast -= 3;
+            backlight -= 80;
             contrast_ctr++;
         } else if (contrast_ctr >= 10 && contrast_ctr < 20 ) {
             LCD_Contrast += 3;
+            backlight += 80;
             contrast_ctr++;
         } else if (contrast_ctr == 20) {
             LCD_Contrast = LCD_DEFAULT_CONTRAST;
+            backlight = 800;
             contrast_ctr = 0;
             respawn = false;
         }
@@ -496,8 +502,7 @@ spritePos_t spritePos(Sprite s) {
     return p;
 }
 
-int previousBlock;
-int currentBlock;
+
 bool isHeroStanding(void) {
     bool isStand = false;
     for (int i = 0; i < block_ctr; i++) {
@@ -1230,7 +1235,7 @@ void process(void) {
     } else {
         q = 0;
     }
-    //set_duty_cycle(backlight);
+    set_duty_cycle(backlight);
     debounceButtons();
     readButtons(); 
     pause();
