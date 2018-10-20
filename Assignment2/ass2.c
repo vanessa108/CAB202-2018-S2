@@ -638,6 +638,41 @@ void zombieFoodMessage(void) {
     gameTimeMessage();
 }
 
+
+
+volatile uint32_t timer3_ctr = 0;
+ISR(TIMER3_OVF_vect) {
+    timer3_ctr++;
+}
+
+
+void turnOnLEDS(void) {
+    SET_BIT(PORTB, 2);
+    SET_BIT(PORTB, 3);
+}
+
+void clearLEDS(void) {
+    CLEAR_BIT(PORTB, 2);
+    CLEAR_BIT(PORTB, 3);
+}
+
+
+void flashingLEDS(void) {
+    if (timer3_ctr >= 4) {
+        turnOnLEDS();
+        timer3_ctr = 0;
+    } else {
+        clearLEDS();
+    }
+}
+
+void zombiesLanded(void) {
+    for (int i = 0; i < 5; i++) {
+        if (zombie[i].dy != 0) {
+            flashingLEDS();
+        }
+}
+
 double previousDrop = 0;;
 bool zombieTimer(void) {
     if (zombieCount <= 0) {
@@ -656,31 +691,6 @@ bool zombieTimer(void) {
     }
 }
 
-
-
-void turnOnLEDS(void) {
-    SET_BIT(PORTB, 2);
-    SET_BIT(PORTB, 3);
-}
-
-void clearLEDS(void) {
-    CLEAR_BIT(PORTB, 2);
-    CLEAR_BIT(PORTB, 3);
-}
-
-
-void zombieSpawning(void) {
-    double spawnTime = previousDrop + 3;
-    for (int i = 0; i < 30; i++) {
-        if (current_time() >= spawnTime + 0.125 && current_time() <= spawnTime + 0.25) {
-        turnOnLEDS();
-        } else if (current_time() >= spawnTime + 0.25 && current_time() <= spawnTime + 0.375) {
-            clearLEDS();
-        } 
-        spawnTime += 0.25; 
-    }
-    clearLEDS();
-}
 
 bool zright[5] = {1, 1, 1, 1, 1};
 
@@ -788,7 +798,8 @@ void zombieFunctions(void) {
     zombieMovement();
     zombieFoodCollision();
     zombieWrap();
-    zombieSpawning();
+    //zombieSpawning();
+    flashingLEDS();
 }
 
 void dropFood(void) {
@@ -969,24 +980,27 @@ void readButtons() {
 
 
 void teensySetup(void) {
-   set_clock_speed(CPU_8MHz);
-   enableInput();
-   adc_init();
-   lcd_init(LCD_DEFAULT_CONTRAST);
-   lcd_clear();
-   //Initialise timer 0 for debounce
-   TCCR0A = 0;
-   TCCR0B = 0x04;
-   TIMSK0 = 1;
+    set_clock_speed(CPU_8MHz);
+    enableInput();
+    adc_init();
+    lcd_init(LCD_DEFAULT_CONTRAST);
+    lcd_clear();
+    //Initialise timer 0 for debounce
+    TCCR0A = 0;
+    TCCR0B = 0x04;
+    TIMSK0 = 1;
 
-   //Initialise timer 1 in normal mode (code from AMS 9 ex2)
-   TCCR1A = 0;
-   TCCR1B = 0b00000011;
-   TIMSK1 = 1;
+    //Initialise timer 1 in normal mode (code from AMS 9 ex2)
+    TCCR1A = 0;
+    TCCR1B = 0b00000011;
+    TIMSK1 = 1;
 
-   sei();
+    //Initialise timer 3 for zombie led flashing 
+    TCCR3A = 0;
+    TCCR3B = 0b00000010;
+    TIMSK3 = 1;
     /** FROM TOPIC 11 PWM EXAMPLE **/
-   TC4H = OVERFLOW_TOP >> 8;
+    TC4H = OVERFLOW_TOP >> 8;
 	OCR4C = OVERFLOW_TOP & 0xff;
 
 	TCCR4A = BIT(COM4A1) | BIT(PWM4A);
@@ -995,6 +1009,8 @@ void teensySetup(void) {
 	TCCR4B = BIT(CS42) | BIT(CS41) | BIT(CS40);
 
 	TCCR4D = 0;
+
+    sei();
     /** LED0 and LED 1 */
     SET_BIT(DDRB, 2);
     SET_BIT(DDRB, 3);
