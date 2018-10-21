@@ -22,8 +22,8 @@
 
 #define LCD_WIDTH (84)
 #define LCD_HEIGHT (48)
-#define HERO_HEIGHT (7)
-#define HERO_WIDTH (5)
+#define HERO_HEIGHT (8)
+#define HERO_WIDTH (6)
 #define BLOCK_HEIGHT (3)
 #define BLOCK_WIDTH (10)
 #define TREASURE_HEIGHT (7)
@@ -117,17 +117,18 @@ Sprite food[5];
 Sprite zombie[5];
 
 /**Sprite Bitmaps **/ 
-uint8_t hero_img [7] = {
-    0b01110000,
-    0b01110000,
-    0b00100000,
+uint8_t hero_img [8] = {
+    0b00000100,
+    0b01110100,
+    0b01110100,
+    0b00100100,
     0b11111000,
     0b00100000,
     0b01010000,
     0b10001000,
 };
 
-uint8_t safe_img [8] = {
+uint8_t safe_img [6] = {
     0b11111111,
     0b11111111,
     0b11111111,
@@ -135,7 +136,7 @@ uint8_t safe_img [8] = {
     0b11111111,
     0b11111111,
 };
-uint8_t forbidden_img [8] = {
+uint8_t forbidden_img [6] = {
     0b11111111,
     0b11111111,
     0b00000000,
@@ -239,7 +240,7 @@ double current_time(void) {
 }
 
 /* SETUP FUNCTION */
-int row[3] = {19, 32, 45};
+int row[3] = {15, 30, 45};
 void setupBlocks(void) {
     int num_rows = 3;
     int num_cols = LCD_WIDTH / (BLOCK_WIDTH + 2);
@@ -269,12 +270,14 @@ void setupBlocks(void) {
 }
 
 void startBlock (void) {
-    sprite_init(&blocks[block_ctr], 79, 8, BLOCK_WIDTH, BLOCK_HEIGHT, safe_img); 
+    sprite_init(&blocks[block_ctr], 5, 0, BLOCK_WIDTH, BLOCK_HEIGHT, safe_img); 
     block_ctr++;
 }
 
+
+
 void setupHero(void) {
-    sprite_init(&hero, blocks[block_ctr-1].x, blocks[block_ctr-1].y - 7, HERO_WIDTH, HERO_HEIGHT, hero_img);
+    sprite_init(&hero, blocks[block_ctr-1].x , blocks[block_ctr-1].y + 3, HERO_WIDTH, HERO_HEIGHT, hero_img);
 }
 
 void setupTreasure(void) {
@@ -500,6 +503,35 @@ spritePos_t spritePos(Sprite s) {
     return p;
 }
 
+bool pixel_level_collision(Sprite h, Sprite b) {
+    for (int x_h = 0; x_h < HERO_WIDTH; x_h++) {
+        if (((h.bitmap[1] >> (7- x_h)) & 1) != 0) {
+            int h_solidx = h.x + x_h;
+            for (int x_b = 0; x_b < 2; x_b++) {  
+                if ( ((b.bitmap[(int) 5+ x_b/8] >> (7- x_b % 8)) & 1) != 0) {
+                    int b_solidx = b.x + x_b;
+                    if (b_solidx == h_solidx - 2 || b_solidx == h_solidx+2) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+
+bool isHeroHolding(void) {
+    for (int i = 0; i < block_ctr; i++) {
+       spritePos_t blockPos = spritePos(blocks[i]);
+       spritePos_t heroPos = spritePos(hero); 
+       if (heroPos.top == blockPos.bottom  && heroPos.right <= blockPos.right + 5 && heroPos.left >= blockPos.left - 5) {
+           if (pixel_level_collision( hero, blocks[i]) ) {
+               return true;
+           }
+       } 
+    }
+    return false;
+}
 
 bool isHeroStanding(void) {
     bool isStand = false;
@@ -510,7 +542,7 @@ bool isHeroStanding(void) {
             if (blocks[i].bitmap == safe_img) {
                 isStand = true;
                 currentBlock = i;
-                hero.y = blockPos.top - 7;
+                hero.y = blockPos.top - HERO_HEIGHT;
             } else {
                 lives -= 1;
                 playerDeathMessage("Forbidden block");
@@ -592,6 +624,7 @@ void heroMovement(void) {
 
 void heroGravity(void) {
     bool heroStand = isHeroStanding();
+    bool heroHold = isHeroHolding();
     if (!heroStand) {
         hero.dy += 0.2;
         if (hero.dy > 1) {
@@ -600,7 +633,7 @@ void heroGravity(void) {
         moveRight = false;
         moveLeft = false;
     }
-    if (heroStand) {
+    if (heroStand || heroHold) {
         hero.dy = 0;
     }
     hero.y += hero.dy;
@@ -642,7 +675,7 @@ void heroFunctions(void) {
     heroOffscreen();
     heroTreasure();
     scoreOnBlock();
-    zombieHeroCollision();
+    //zombieHeroCollision();
     specialisedRespawn();
 }
 
@@ -866,7 +899,7 @@ void dropFood(void) {
     int fc = availableFood[5 - foodCount];
     if (downPress && foodCount > 0 && heroStand) {
         food[fc].x = hero.x + 2;
-        food[fc].y = hero.y + 5;
+        food[fc].y = hero.y + HERO_HEIGHT - 2;
         food[fc].is_visible = 1;
         foodCount -= 1;
     }
