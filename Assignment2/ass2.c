@@ -24,7 +24,7 @@
 #define LCD_HEIGHT (48)
 #define HERO_HEIGHT (8)
 #define HERO_WIDTH (6)
-#define BLOCK_HEIGHT (3)
+#define BLOCK_HEIGHT (2)
 #define BLOCK_WIDTH (10)
 #define TREASURE_HEIGHT (7)
 #define TREASURE_WIDTH (7)
@@ -128,21 +128,17 @@ uint8_t hero_img [8] = {
     0b10001000,
 };
 
-uint8_t safe_img [6] = {
-    0b11111111,
-    0b11111111,
+uint8_t safe_img [4] = {
     0b11111111,
     0b11111111,
     0b11111111,
     0b11111111,
 };
-uint8_t forbidden_img [6] = {
-    0b11111111,
-    0b11111111,
-    0b00000000,
-    0b00000000,
-    0b11111111,
-    0b11111111,
+uint8_t forbidden_img [4] = {
+    0b10101010,
+    0b10100000,
+    0b10101010,
+    0b10111111,
 };
 
 uint8_t treasure_img [7] = {
@@ -314,7 +310,7 @@ double current_time(void) {
 }
 
 /* SETUP FUNCTION */
-int row[3] = {15, 30, 45};
+int row[3] = {21, 33, 45};
 void setupBlocks(void) {
     int num_rows = 3;
     int num_cols = LCD_WIDTH / (BLOCK_WIDTH + 2);
@@ -344,14 +340,14 @@ void setupBlocks(void) {
 }
 
 void startBlock (void) {
-    sprite_init(&blocks[block_ctr], 5, 0, BLOCK_WIDTH, BLOCK_HEIGHT, safe_img); 
+    sprite_init(&blocks[block_ctr], 74, 9, BLOCK_WIDTH, BLOCK_HEIGHT, safe_img); 
     block_ctr++;
 }
 
 
 
 void setupHero(void) {
-    sprite_init(&hero, blocks[block_ctr-1].x , blocks[block_ctr-1].y + 3, HERO_WIDTH, HERO_HEIGHT, hero_img);
+    sprite_init(&hero, blocks[block_ctr-1].x , blocks[block_ctr-1].y - HERO_HEIGHT, HERO_WIDTH, HERO_HEIGHT, hero_img);
 }
 
 void setupTreasure(void) {
@@ -859,11 +855,11 @@ void zombieGravity(void) {
         } else if (zombieStand) {
             zombie[i].dy = 0;
             int zombieBot = zombie[i].y + ZOMBIE_HEIGHT;
-            if (zombieBot >= row[0] && zombieBot <= row[0]+3) {
+            if (zombieBot >= row[0] && zombieBot <= row[0]+BLOCK_HEIGHT) {
                 zombie[i].y = row[0] - ZOMBIE_HEIGHT;
-            } else if (zombieBot >= row[1] && zombieBot <= row[1]+3) {
+            } else if (zombieBot >= row[1] && zombieBot <= row[1]+BLOCK_HEIGHT) {
                 zombie[i].y = row[1] - ZOMBIE_HEIGHT;
-            } else if (zombieBot >= row[2] && zombieBot <= row[2]+3) {
+            } else if (zombieBot >= row[2] && zombieBot <= row[2]+BLOCK_HEIGHT) {
                 zombie[i].y = row[2] - ZOMBIE_HEIGHT;
             } 
         }
