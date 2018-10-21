@@ -170,6 +170,8 @@ uint8_t zombie_img[7] = {
     0b10001000,
 };
 
+
+
 /** Structures **/
 typedef struct spritePos_t {
     int top;
@@ -223,7 +225,79 @@ void usb_serial_send_int(int value) {
 }
 
 
+/**###############
+ * Direct draw LED and Char (code from topic 8 example 3)
+ * ############################### **/
+uint8_t direct_y = 8;
 
+void draw_char_direct(int x, int y, char ch, colour_t colour) {
+    // Do nothing if character does not fit on LCD.
+    if (x < 0 || x > LCD_X - CHAR_WIDTH || y < 0 || y > LCD_Y - CHAR_HEIGHT) {
+        return;
+    }
+
+    // Move LCD cursor to starting spot.
+    LCD_CMD(lcd_set_function, lcd_instr_basic | lcd_addr_horizontal);
+    LCD_CMD(lcd_set_x_addr, ( x & 0x7f));
+    LCD_CMD(lcd_set_y_addr, (y & 0x7f) / 8);
+
+    // Send pixel blocks.
+    for (int i = 0; i < CHAR_WIDTH; i++) {
+        uint8_t pixelBlock = pgm_read_byte(&(ASCII[ch - ' '][i]));
+
+        if (colour == BG_COLOUR) {
+            pixelBlock = ~pixelBlock;
+        }
+
+        LCD_DATA(pixelBlock);
+    }
+}
+
+
+void erase_char_direct(int x, int y, char ch, colour_t colour) {
+    // Do nothing if character does not fit on LCD.
+    if (x < 0 || x > LCD_X - CHAR_WIDTH || y < 0 || y > LCD_Y - CHAR_HEIGHT) {
+        return;
+    }
+
+    // Move LCD cursor to starting spot.
+    LCD_CMD(lcd_set_function, lcd_instr_basic | lcd_addr_horizontal);
+    LCD_CMD(lcd_set_x_addr, ( x & 0x7f));
+    LCD_CMD(lcd_set_y_addr, (y & 0x7f) / 8);
+
+    // Send pixel blocks.
+    for (int i = 0; i < CHAR_WIDTH; i++) {
+        uint8_t pixelBlock = pgm_read_byte(&(ASCII[ch - ' '][i]));
+
+        if (colour == BG_COLOUR) {
+            pixelBlock = ~pixelBlock;
+        }
+
+        LCD_DATA(0);
+    }
+}
+
+
+
+void draw_string_direct(int x, int y, char * str, colour_t colour) {
+    for (int i = 0; str[i] != 0; i++, x += CHAR_WIDTH) {
+        draw_char_direct(x, y, str[i], colour);
+    }
+}
+
+void erase_string_direct(int x, int y, char * str, colour_t colour) {
+    for (int i = 0; str[i] != 0; i++, x += CHAR_WIDTH) {
+        erase_char_direct(x, y, str[i], colour);
+    }
+}
+
+
+
+void direct_message(void) {
+    erase_string_direct(20, direct_y, "Game Over", FG_COLOUR);
+    direct_y = (direct_y+1) % (LCD_WIDTH - 8);
+    draw_string_direct(20, direct_y, "Game Over", FG_COLOUR);
+}
 
 /** #####################################
  *  GAME TIMER (code from ams 9 ex 2)
@@ -403,7 +477,8 @@ void startSerialMessage(void) {
     playerPositionMessage();
 }
 
-void setupGame(void) { 
+
+void setupGame(void) {
     setupBlocks();
     startBlock();
     setupHero();
@@ -487,10 +562,13 @@ void specialisedRespawn(void) {
 
 void heroRespawn(void) {
     free(&hero);
-    respawn = true;
+    if (lives > 0) {
+        respawn = true;
+    }
+    setupHero();
     moveRight = false;
     moveLeft = false;
-    setupHero();
+    
 
 }
 
@@ -663,6 +741,7 @@ void zombieHeroCollision(void) {
         }
     }
 }
+
 
 
 
@@ -906,7 +985,6 @@ void dropFood(void) {
 }
 
 void foodOnBlock(void) {
-    //bool foodBlock = false;
     for (int i = 0; i < 5; i++) {
         spritePos_t f = spritePos(food[i]);
         for (int j = 0; j < block_ctr; j++) {
@@ -1019,6 +1097,11 @@ ISR(TIMER0_OVF_vect) {
 }
 
 void debounceButtons(void) {
+    if (SW2_cls != SW2PrevState) {
+        SW2PrevState = SW2_cls;
+        SW2Press = SW2PrevState;
+    }
+
     if (down_cls == downPrevState) {
         downPress = 0;
     } else if (down_cls != downPrevState) {
@@ -1050,10 +1133,7 @@ void debounceButtons(void) {
         rightPrevState = right_cls;
         rightPress = rightPrevState;
     }
-    if (SW2_cls != SW2PrevState) {
-        SW2PrevState = SW2_cls;
-        SW2Press = SW2PrevState;
-    }
+    
 }
 
 void readButtons() {
@@ -1322,10 +1402,14 @@ void process(void) {
     drawSprites();
     if (lives <= 0) {
         endTime = current_time();
-        gameoverMessage();
-        gameoverScreen();
-        wait = true;
-        return;
+        direct_message();
+        if (direct_y > 45) {
+            gameoverMessage();
+            gameoverScreen();
+            wait = true;
+            return;
+        }
+        
     }
 }
 
