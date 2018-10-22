@@ -482,14 +482,14 @@ void drawSprites(void) {
 }
 
 void playerPositionMessage(void) {
-    usb_serial_send("\r\nPlayer position: (");
+    usb_serial_send(strcpy_P(progmeme, PSTR("\r\nPlayer position: (")));
 	usb_serial_send_int((int)hero.x);
 	usb_serial_putchar(',');
 	usb_serial_send_int((int)hero.y);
 	usb_serial_send(")\r\n");
 }
 void startSerialMessage(void) {
-    usb_serial_send("\nGame has started");
+    usb_serial_send(strcpy_P(progmeme, PSTR("\nGame has started")));
     playerPositionMessage();
 }
 
@@ -511,28 +511,28 @@ void gameTimeMessage(void) {
     int now = current_time();
     int minutes = floor(now/60);
     int seconds = floor(now % 60);
-    usb_serial_send("\r\n Time: "); usb_serial_send_int((int) minutes); usb_serial_send(":"); usb_serial_send_int((int) seconds);
+    usb_serial_send(strcpy_P(progmeme, PSTR("\r\n Time: "))); usb_serial_send_int((int) minutes); usb_serial_send(":"); usb_serial_send_int((int) seconds);
 }
 
 void livesMessage(void) {
-    usb_serial_send("\r\n Lives remaining: "); usb_serial_send_int((int)lives);
+    usb_serial_send(strcpy_P(progmeme, PSTR("\r\n Lives remaining: "))); usb_serial_send_int((int)lives);
 }
 
 void scoreMessage(void) {
-    usb_serial_send("\r\n Current score: "); usb_serial_send_int((int) score); 
+    usb_serial_send(strcpy_P(progmeme, PSTR("\r\n Current score: "))); usb_serial_send_int((int) score); 
 }
 
 void playerDeathMessage(char * reason) {
     
-    usb_serial_send("\n\rPlayer has died");
-    usb_serial_send("\r\n Cause of death: "); usb_serial_send(reason);
+    usb_serial_send(strcpy_P(progmeme, PSTR("\n\rPlayer has died")));
+    usb_serial_send(strcpy_P(progmeme, PSTR("\r\n Cause of death: "))); usb_serial_send(reason);
     livesMessage();
     scoreMessage();
     gameTimeMessage();
 }
 
 void playerTreasureMessage(void) {
-    usb_serial_send("\n\rPlayer collided with treasure");
+    usb_serial_send(strcpy_P(progmeme, PSTR("\n\rPlayer collided with treasure")));
     scoreMessage();
     livesMessage();
     gameTimeMessage();
@@ -540,17 +540,17 @@ void playerTreasureMessage(void) {
 }
 
 void playerRespawnMessage(void) {
-    usb_serial_send("\n\rPlayer respawned");
+    usb_serial_send(strcpy_P(progmeme, PSTR("\n\rPlayer respawned")));
     playerPositionMessage();
 }
 
 void pauseMessage(void) {
-    usb_serial_send("\nGame Paused");
+    usb_serial_send(strcpy_P(progmeme, PSTR("\n\rGame Paused")));
     livesMessage();
     scoreMessage();
     gameTimeMessage();
-    usb_serial_send("\r\nNumber of zombies: "); usb_serial_send_int((int) zombieCount);
-    usb_serial_send("\r\nFood in inventory: "); usb_serial_send_int((int) foodCount);
+    usb_serial_send(strcpy_P(progmeme, PSTR("\r\nNumber of zombies: "))); usb_serial_send_int((int) zombieCount);
+    usb_serial_send(strcpy_P(progmeme, PSTR("\r\nFood in inventory: "))); usb_serial_send_int((int) foodCount);
 }
 
 
@@ -636,7 +636,7 @@ bool isHeroStanding(void) {
                 hero.y = blockPos.top - HERO_HEIGHT;
             } else {
                 lives -= 1;
-                playerDeathMessage("Forbidden block");
+                playerDeathMessage(strcpy_P(progmeme, PSTR("Forbidden block")));
                 heroRespawn();
             }
        }
@@ -665,7 +665,7 @@ void heroOffscreen(void) {
     if (heroPos.bottom > LCD_HEIGHT || heroPos.top < 0 ||
     heroPos.left < 0 || heroPos.right > LCD_WIDTH) {
         lives -= 1;
-        playerDeathMessage("Player is offscreen");
+        playerDeathMessage(strcpy_P(progmeme, PSTR("Player is offscreen")));
         heroRespawn();
     }
 
@@ -771,7 +771,7 @@ void zombieHeroCollision(void) {
         if (((h.left <= z.left && h.right >= z.left) || (h.right >= z.right && h.left <= z.right))
         && (h.top <=  z.top && h.bottom >= z.top ) ) {
             lives -= 1;
-            playerDeathMessage("Player collided with zombie");
+            playerDeathMessage(strcpy_P(progmeme, PSTR("Player collided with zombie")));
             heroRespawn();
         }
     }
@@ -807,17 +807,17 @@ bool isZombieStanding(Sprite zomb) {
 }
 
 void zombieMessage(void) {
-    usb_serial_send("\r\nZombies spawning!");
-    usb_serial_send("\r\nNumber of zombies: "); usb_serial_send_int((int) zombieCount);
+    usb_serial_send(strcpy_P(progmeme, PSTR("\r\nZombies spawning!")));
+    usb_serial_send(strcpy_P(progmeme, PSTR("\r\nNumber of zombies: "))); usb_serial_send_int((int) zombieCount);
     gameTimeMessage();
     livesMessage();
     scoreMessage();
 }
 
 void zombieFoodMessage(void) {
-    usb_serial_send("\r\nZombie collided with food");
-    usb_serial_send("\r\nNumber of zombies: "); usb_serial_send_int((int) zombieCount);
-    usb_serial_send("\r\nFood in inventory: "); usb_serial_send_int((int) foodCount);
+    usb_serial_send(strcpy_P(progmeme, PSTR("\r\nZombie collided with food")));
+    usb_serial_send(strcpy_P(progmeme, PSTR("\r\nNumber of zombies: "))); usb_serial_send_int((int) zombieCount);
+    usb_serial_send(strcpy_P(progmeme, PSTR("\r\nFood in inventory: "))); usb_serial_send_int((int) foodCount);
     gameTimeMessage();
 }
 
@@ -1269,11 +1269,11 @@ void restartGame(void) {
 }
 
 void gameoverMessage(void) {
-    usb_serial_send("\n\rGame over");
+    usb_serial_send(strcpy_P(progmeme, PSTR("\n\rGame over")));
     livesMessage();
     scoreMessage();
     gameTimeMessage();
-    usb_serial_send("\r\nZombies fed: "); usb_serial_send_int((int) numberOfZombiesFed);
+    usb_serial_send(strcpy_P(progmeme, PSTR("\r\nZombies fed: "))); usb_serial_send_int((int) numberOfZombiesFed);
 }
 
 
