@@ -227,7 +227,7 @@ void usb_serial_send(char * message) {
 }
 
 /*
-**	Transmits an integer value via usb_serial.
+**	Transmits an integer value via usb_serial
 */
 
 void usb_serial_send_int(int value) {
@@ -647,7 +647,7 @@ bool isHeroCollidingSide(void) {
     for (int i = 0; i < block_ctr; i++) {
         spritePos_t b = spritePos(blocks[i]);
         spritePos_t h = spritePos(hero);
-        if ((h.left >= b.right || h.right >= b.left) && 
+        if ((h.left >= b.right + 3 || h.right >= b.left - 3) && 
         ((h.top < b.top && h.bottom > b.top) || 
         (h.bottom > b.bottom && h.top < b.bottom))) {
             isCollide = true;
@@ -696,10 +696,8 @@ void heroMovement(void) {
     bool heroCollide = isHeroCollidingSide();
     if (heroCollide) {
         if (hero.dx > 0) {
-            hero.x -= 1;
             hero.dx = 0;
         } else if (hero.dx < 0) {
-            hero.x +=1;
             hero.dx = 0;
         }
     }
@@ -787,7 +785,7 @@ void heroFunctions(void) {
     heroOffscreen();
     heroTreasure();
     scoreOnBlock();
-    zombieHeroCollision();
+    //zombieHeroCollision();
     specialisedRespawn();
 }
 
@@ -797,7 +795,7 @@ bool isZombieStanding(Sprite zomb) {
     for (int i = 0; i < block_ctr; i++) {
         spritePos_t z = spritePos(zomb);
         spritePos_t b = spritePos(blocks[i]);
-        if (z.bottom == b.top && z.right <= b.right + 3 && z.left >= b.left - 3) {
+        if (z.bottom == b.top && z.left <= b.right && z.right >= b.left) {
             isStand = true;
         }
     }
@@ -1408,6 +1406,7 @@ void introScreen(void) {
         if (BIT_IS_SET(PINF, 6) || c == 's') {
             intro = false;
             pause_elapsed = current_time();
+            previousDrop = pause_elapsed;
             break;
         }
    }
