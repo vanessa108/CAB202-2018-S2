@@ -40,6 +40,7 @@
 #define BIT(x) (1 << (x))
 #define OVERFLOW_TOP (1023)
 
+//BUTTON DEBOUNCE VARIABLES
 static uint8_t upPrevState = 0;
 static uint8_t downPrevState = 0;
 static uint8_t leftPrevState = 0;
@@ -63,14 +64,17 @@ volatile uint8_t SW2_cls = 0;
 volatile uint8_t SW3_ctr = 0;
 volatile uint8_t SW3_cls = 0;
 
-bool upPrevious = false; 
 bool downPrevious = false;
-bool leftPrevious = false;
-bool rightPrevious = false;
 bool centrePrevious = false;
-bool SW2Previous = false;
 bool SW3Previous = false;
 
+bool upPress;
+bool downPress;
+bool leftPress;
+bool rightPress;
+bool centrePress;
+bool SW2Press;
+bool SW3Press;
 
 /** Game Booleans **/
 bool game_over = false;
@@ -89,6 +93,7 @@ int score = 0;
 int foodCount = 5;
 int zombieCount = 5;
 
+/** Block variables **/
 int block_ctr = 0;
 bool movingRight = true;
 double block_speed;
@@ -96,15 +101,26 @@ double block_speed;
 int previousBlock;
 int currentBlock;
 
-bool upPress;
-bool downPress;
-bool leftPress;
-bool rightPress;
-bool centrePress;
-bool SW2Press;
-bool SW3Press;
+/** Specalised respawn animations **/
+/** This is a comment **/
+int backlight = 800;
+bool respawn;
+int LCD_Contrast = LCD_DEFAULT_CONTRAST;
+int contrast_ctr;
+/**Zombie spawn variables **/
+double previousDrop = 0;
+bool zombiesExist;
+bool zombiesFalling;
+int fallingMessage_ctr = 0;
 
+/** Misc variables **/
 int numberOfZombiesFed = 0;
+uint8_t direct_y = 8; //for end animation 
+bool zright[5] = {1, 1, 1, 1, 1}; //zombie moving right
+int q; //for usb serial input
+int endTime; //for game over screen
+int time_at_pause;
+int pause_elapsed;
 /** Define Sprites **/
 Sprite hero;
 
@@ -224,7 +240,7 @@ void usb_serial_send_int(int value) {
 /**###############
  * Direct draw LED and Char (code from topic 8 example 3)
  * ############################### **/
-uint8_t direct_y = 8;
+
 
 void draw_char_direct(int x, int y, char ch, colour_t colour) {
     // Do nothing if character does not fit on LCD.
@@ -533,10 +549,7 @@ void pauseMessage(void) {
     usb_serial_send("\r\nFood in inventory: "); usb_serial_send_int((int) foodCount);
 }
 
-int backlight = 800;
-bool respawn;
-int LCD_Contrast = LCD_DEFAULT_CONTRAST;
-int contrast_ctr;
+
 void specialisedRespawn(void) {
     if (respawn) {
         if (contrast_ctr < 10) {
@@ -750,7 +763,7 @@ void heroFunctions(void) {
     heroOffscreen();
     heroTreasure();
     scoreOnBlock();
-    //zombieHeroCollision();
+    zombieHeroCollision();
     specialisedRespawn();
 }
 
@@ -811,10 +824,7 @@ void flashingLEDS(void) {
 }
 
 
-double previousDrop = 0;
-bool zombiesExist;
-bool zombiesFalling;
-int fallingMessage_ctr = 0;
+
 void zombieTimer(void) {
     if (zombieCount <= 0) {
         fallingMessage_ctr = 0;
@@ -841,7 +851,6 @@ void zombieTimer(void) {
 }
 
 
-bool zright[5] = {1, 1, 1, 1, 1};
 
 void zombieGravity(void) {
     for (int i = 0; i < 5; i++) {
@@ -1011,10 +1020,6 @@ void foodFunctions(void) {
 }
 
 
-
-
-
-
 /** #####################################
  * DEBOUNCE AND READ BUTTONS
  * ####################################**/
@@ -1029,7 +1034,7 @@ void enableInput(void) {
     SET_INPUT(DDRF, 6);  //left button (SW2)
 }
 
-int q;
+
 // Using code from AMS 9 ex3
 ISR(TIMER0_OVF_vect) {
 
@@ -1198,7 +1203,7 @@ void freeSprites(void) {
     for(int i = 0; i < block_ctr; i++) {
         free(&blocks[i]);
     }
-    for(int j = 0; j < 5; j++) {
+    for(int j   = 0; j < 5; j++) {
         free(&food[j]);
         free(&zombie[j]);
     }
@@ -1206,7 +1211,6 @@ void freeSprites(void) {
     free(&treasure);
 }
 
-void process();
 
 void restartGame(void) {
     clear_screen();
@@ -1216,11 +1220,20 @@ void restartGame(void) {
     toggle = false;
     moveRight = false;
     moveLeft = false;
+    movingRight = true; 
+    previousBlock = 0;
+    currentBlock = 0;
+    numberOfZombiesFed = 0;
+    previousDrop = 0;
     lives = 10;
     score = 0;
     foodCount = 5;
     zombieCount = 5;
     block_ctr = 0;
+    time_at_pause = 0;
+    pause_elapsed = current_time();
+    previousDrop = pause_elapsed;
+    
     setupGame();
     show_screen();
 
@@ -1234,7 +1247,7 @@ void gameoverMessage(void) {
     usb_serial_send("\r\nZombies fed: "); usb_serial_send_int((int) numberOfZombiesFed);
 }
 
-int endTime;
+
 void gameoverScreen(void) {
     while (wait) {
         int c;
@@ -1277,10 +1290,6 @@ void gameoverScreen(void) {
     }
 }
 
-
-
-int time_at_pause;
-int pause_elapsed;
 
 
 void pause(void) {
@@ -1373,6 +1382,7 @@ void introScreen(void) {
         }
         if (BIT_IS_SET(PINF, 6) || c == 's') {
             intro = false;
+            pause_elapsed = current_time();
             break;
         }
    }
