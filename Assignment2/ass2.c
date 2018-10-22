@@ -134,6 +134,10 @@ Sprite food[5];
 
 Sprite zombie[5];
 
+
+/* Progmeme pointer for strings */
+char progmeme[200];
+
 /**Sprite Bitmaps **/ 
 uint8_t hero_img [8] = {
     0b00000100,
@@ -305,12 +309,10 @@ void erase_string_direct(int x, int y, char * str, colour_t colour) {
     }
 }
 
-
-
 void direct_message(void) {
-    erase_string_direct(20, direct_y, "Game Over", FG_COLOUR);
+    erase_string_direct(20, direct_y, "GAME OVER", FG_COLOUR);
     direct_y = (direct_y+1) % (LCD_WIDTH - 8);
-    draw_string_direct(20, direct_y, "Game Over", FG_COLOUR);
+    draw_string_direct(20, direct_y, "GAME OVER", FG_COLOUR);
 }
 
 /** #####################################
@@ -1293,15 +1295,15 @@ void gameoverScreen(void) {
         }
         clear_screen();
 
-        draw_string(25, 1, "GAME OVER", FG_COLOUR);
-        draw_string(10, 11, "Score:", FG_COLOUR);
+        draw_string(25, 1, strcpy_P(progmeme, PSTR("GAME OVER")), FG_COLOUR);
+        draw_string(10, 11, strcpy_P(progmeme, PSTR("Score:")), FG_COLOUR);
         draw_string(45, 11, scoreS, FG_COLOUR);
-        draw_string(10, 21, "Time:", FG_COLOUR);
+        draw_string(10, 21, strcpy_P(progmeme, PSTR("Time:")), FG_COLOUR);
         draw_string(45, 21, minuteS, FG_COLOUR);  
-        draw_string(55, 21, ":", FG_COLOUR);
+        draw_string(55, 21, strcpy_P(progmeme, PSTR(":")), FG_COLOUR);
         draw_string(59, 21, secondS, FG_COLOUR); 
-        draw_string(0, 31, "SW2 to quit", FG_COLOUR);
-        draw_string(0, 41, "SW3 to restart", FG_COLOUR);
+        draw_string(0, 31, strcpy_P(progmeme, PSTR("SW2 to quit")), FG_COLOUR);
+        draw_string(0, 41, strcpy_P(progmeme, PSTR("SW3 to restart")), FG_COLOUR);
         show_screen();
         if (BIT_IS_SET(PINF, 5) || c == 'r') {
             restartGame();
@@ -1311,7 +1313,7 @@ void gameoverScreen(void) {
             wait = false;
             end_game = true;
             clear_screen();
-            draw_string(20, 20, "n9966463", FG_COLOUR);
+            draw_string(20, 20, strcpy_P(progmeme, PSTR("n9966463")), FG_COLOUR);
             show_screen();
         }
     }
@@ -1330,13 +1332,13 @@ void pause(void) {
 void livesDisplay(void) {
     char liveS[15];
     sprintf(liveS, "%d", lives);
-    draw_string(10, 1, "Lives:", FG_COLOUR);
+    draw_string(10, 1, strcpy_P(progmeme, PSTR("Lives:")), FG_COLOUR);
     draw_string(45, 1, liveS, FG_COLOUR);
 }
 void scoreDisplay(void) {
     char scoreS[15];
     sprintf(scoreS, "%d", score);
-    draw_string(10, 11, "Score:", FG_COLOUR);
+    draw_string(10, 11, strcpy_P(progmeme, PSTR("Score:")), FG_COLOUR);
     draw_string(45, 11, scoreS, FG_COLOUR);
 }
 
@@ -1347,7 +1349,7 @@ void timeDisplay(void) {
     int seconds = floor(time_at_pause % 60);
     sprintf(minuteS, "%02d", minutes);
     sprintf(secondS, "%02d", seconds);
-    draw_string(10, 21, "Time:", FG_COLOUR);
+    draw_string(10, 21, strcpy_P(progmeme, PSTR("Time:")), FG_COLOUR);
     draw_string(45, 21, minuteS, FG_COLOUR);  
     draw_string(55, 21, ":", FG_COLOUR);
     draw_string(59, 21, secondS, FG_COLOUR);  
@@ -1356,14 +1358,14 @@ void timeDisplay(void) {
 void foodDisplay(void) {
     char foodS[15];
     sprintf(foodS, "%d", foodCount);
-    draw_string(10, 31, "Food:", FG_COLOUR);
+    draw_string(10, 31, strcpy_P(progmeme, PSTR("Food:")), FG_COLOUR);
     draw_string(45, 31, foodS, FG_COLOUR);
 }
 
 void zombieDisplay(void) {
     char zombieS[15];
     sprintf(zombieS, "%d", zombieCount);
-    draw_string(10, 41, "Zombies:", FG_COLOUR);
+    draw_string(10, 41, strcpy_P(progmeme, PSTR("Zombies:")), FG_COLOUR);
     draw_string(50, 41, zombieS, FG_COLOUR);
 }
 
@@ -1394,12 +1396,13 @@ void pauseDisplay(void) {
 
 
 
+
 void introScreen(void) {
     bool intro = true;
     int c;
     clear_screen();
-    draw_string(18, 11, "Vanessa Li", BG_COLOUR);
-    draw_string(20, 20, "n9966463", FG_COLOUR);
+    draw_string(18, 11, strcpy_P(progmeme, PSTR("Vanessa Li")), BG_COLOUR);
+    draw_string(20, 20, strcpy_P(progmeme, PSTR("n9966463")), FG_COLOUR);
     show_screen();
    while (intro) {
        if (usb_serial_available()) {
