@@ -139,7 +139,7 @@ Sprite zombie[5];
 char progmeme[200];
 
 /**Sprite Bitmaps **/ 
-static const PROGMEM uint8_t hero_img [8] =  {
+uint8_t hero_img [8] =  {
     0b00000100,
     0b01110100,
     0b01110100,
@@ -370,7 +370,7 @@ void startBlock (void) {
 
 void setupHero(void) {
     sprite_init(&hero, blocks[block_ctr-1].x , blocks[block_ctr-1].y - HERO_HEIGHT, 
-    HERO_WIDTH, HERO_HEIGHT, load_rom_bitmap(hero_img, 8));
+    HERO_WIDTH, HERO_HEIGHT, hero_img);
 }
 
 void setupTreasure(void) {
@@ -710,7 +710,7 @@ void heroMovement(void) {
     }
     if (upPress) {
         if (heroStand) {
-        hero.dy = -2.3;
+        hero.dy = -2.15;
         hero.y += hero.dy;
         }   
     }
@@ -761,7 +761,8 @@ void heroTreasure(void) {
     if (h.bottom >= t.top && h.left >= t.left - 3 && h.right <= t.right + 3) {
         lives += 2;
         treasure.is_visible = 0;
-        free(&treasure);
+        treasure.y = -10;
+        //free(&treasure);
         heroRespawn();
         playerTreasureMessage();
     }
