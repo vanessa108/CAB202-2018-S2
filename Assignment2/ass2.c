@@ -640,6 +640,22 @@ bool isHeroStanding(void) {
     return isStand;
 }
 
+
+
+bool isHeroCollidingSide(void) {
+    bool isCollide = false; 
+    for (int i = 0; i < block_ctr; i++) {
+        spritePos_t b = spritePos(blocks[i]);
+        spritePos_t h = spritePos(hero);
+        if ((h.left >= b.right || h.right >= b.left) && 
+        ((h.top < b.top && h.bottom > b.top) || 
+        (h.bottom > b.bottom && h.top < b.bottom))) {
+            isCollide = true;
+        }
+    }
+    return isCollide;
+}
+
 void heroOffscreen(void) {
     spritePos_t heroPos = spritePos(hero);
     if (heroPos.bottom > LCD_HEIGHT || heroPos.top < 0 ||
@@ -657,8 +673,6 @@ void scoreOnBlock(void) {
         score++;
     }
 }
-
-
 
 void heroControls(void) {
         if (rightPress) {
@@ -679,6 +693,16 @@ void heroControls(void) {
 
 void heroMovement(void) {
     bool heroStand = isHeroStanding();
+    bool heroCollide = isHeroCollidingSide();
+    if (heroCollide) {
+        if (hero.dx > 0) {
+            hero.x -= 1;
+            hero.dx = 0;
+        } else if (hero.dx < 0) {
+            hero.x +=1;
+            hero.dx = 0;
+        }
+    }
     if (upPress) {
         if (heroStand) {
         hero.dy = -2.3;
@@ -1122,10 +1146,12 @@ void debounceButtons(void) {
         centrePress = centrePrevState;
     }
 
-    if (up_cls != upPrevState) {
+
+   if (up_cls != upPrevState) {
         upPrevState = up_cls;
         upPress = upPrevState;
     }
+
     if (left_cls != leftPrevState) {
         leftPrevState = left_cls;
         leftPress = leftPrevState;
@@ -1233,7 +1259,6 @@ void restartGame(void) {
     time_at_pause = 0;
     pause_elapsed = current_time();
     previousDrop = pause_elapsed;
-    
     setupGame();
     show_screen();
 
