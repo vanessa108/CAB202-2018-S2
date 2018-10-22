@@ -14,7 +14,7 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include <stdint.h> 
-
+#include <ram_utils.h>
 #include <avr/pgmspace.h>
 
 #include "usb_serial.h"
@@ -139,7 +139,7 @@ Sprite zombie[5];
 char progmeme[200];
 
 /**Sprite Bitmaps **/ 
-uint8_t hero_img [8] = {
+uint8_t hero_img [8] =  {
     0b00000100,
     0b01110100,
     0b01110100,
@@ -149,6 +149,8 @@ uint8_t hero_img [8] = {
     0b01010000,
     0b10001000,
 };
+
+
 
 uint8_t safe_img [4] = {
     0b11111111,
@@ -163,7 +165,7 @@ uint8_t forbidden_img [4] = {
     0b10111111,
 };
 
-uint8_t treasure_img [7] = {
+static const PROGMEM uint8_t treasure_img [7] = {
     0b11111110,
     0b10000010,
     0b10111010,
@@ -173,12 +175,12 @@ uint8_t treasure_img [7] = {
     0b11111110,
 };
 
-uint8_t food_img[2] = {
+static const PROGMEM uint8_t food_img[2] = {
     0b11000000,
     0b11000000,
 };
 
-uint8_t zombie_img[7] = {
+static const PROGMEM uint8_t zombie_img[7] = {
     0b10001000,
     0b10101000,
     0b11111000,
@@ -367,16 +369,17 @@ void startBlock (void) {
 
 
 void setupHero(void) {
-    sprite_init(&hero, blocks[block_ctr-1].x , blocks[block_ctr-1].y - HERO_HEIGHT, HERO_WIDTH, HERO_HEIGHT, hero_img);
+    sprite_init(&hero, blocks[block_ctr-1].x , blocks[block_ctr-1].y - HERO_HEIGHT, 
+    HERO_WIDTH, HERO_HEIGHT, hero_img);
 }
 
 void setupTreasure(void) {
-    sprite_init(&treasure, 0, 38, 7, 7, treasure_img);
+    sprite_init(&treasure, 0, 38, 7, 7, load_rom_bitmap(treasure_img, 7));
 }
 
 void setupFood(void) {
     for (int i = 0; i < 5; i++) {
-        sprite_init(&food[i], 81, 0, 2, 2, food_img);
+        sprite_init(&food[i], 81, 0, 2, 2, load_rom_bitmap(food_img, 2));
         food[i].is_visible = 0;
     }
 }
@@ -390,7 +393,7 @@ void drawFood(void) {
 int zombie_start[5] = {5, 19, 31, 53, 69};
 void setupZombies(void) {
     for (int i = 0; i < 5; i++) {
-        sprite_init(&zombie[i], zombie_start[i], -7, ZOMBIE_WIDTH, ZOMBIE_HEIGHT, zombie_img);
+        sprite_init(&zombie[i], zombie_start[i], -7, ZOMBIE_WIDTH, ZOMBIE_HEIGHT, load_rom_bitmap(zombie_img, 7));
     }
 }
 
