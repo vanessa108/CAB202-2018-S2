@@ -139,7 +139,7 @@ Sprite zombie[5];
 char progmeme[200];
 
 /**Sprite Bitmaps **/ 
-uint8_t hero_img [8] =  {
+static const PROGMEM uint8_t hero_img [8] =  {
     0b00000100,
     0b01110100,
     0b01110100,
@@ -158,7 +158,7 @@ uint8_t safe_img [4] = {
     0b11111111,
     0b11111111,
 };
-uint8_t forbidden_img [4] = {
+static const PROGMEM uint8_t forbidden_img [4] = {
     0b10101010,
     0b10100000,
     0b10101010,
@@ -352,7 +352,7 @@ void setupBlocks(void) {
                     if (isSafe) {
                         sprite_init(&blocks[block_ctr], x, y, BLOCK_WIDTH, BLOCK_HEIGHT, safe_img);
                     } else if (!isSafe) {
-                        sprite_init(&blocks[block_ctr], x, y, BLOCK_WIDTH, BLOCK_HEIGHT, forbidden_img);
+                        sprite_init(&blocks[block_ctr], x, y, BLOCK_WIDTH, BLOCK_HEIGHT, load_rom_bitmap(forbidden_img,4));
                     }
                     block_ctr++;
                 }
@@ -370,7 +370,7 @@ void startBlock (void) {
 
 void setupHero(void) {
     sprite_init(&hero, blocks[block_ctr-1].x , blocks[block_ctr-1].y - HERO_HEIGHT, 
-    HERO_WIDTH, HERO_HEIGHT, hero_img);
+    HERO_WIDTH, HERO_HEIGHT, load_rom_bitmap(hero_img, 8));
 }
 
 void setupTreasure(void) {
@@ -577,7 +577,7 @@ void specialisedRespawn(void) {
 }
 
 void heroRespawn(void) {
-    free(&hero);
+    //free(&hero);
     if (lives > 0) {
         respawn = true;
     }
