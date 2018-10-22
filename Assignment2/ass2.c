@@ -15,6 +15,8 @@
 #include <util/delay.h>
 #include <stdint.h> 
 
+#include <avr/pgmspace.h>
+
 #include "usb_serial.h"
 
 /** Game Constants **/
@@ -795,7 +797,7 @@ bool isZombieStanding(Sprite zomb) {
     for (int i = 0; i < block_ctr; i++) {
         spritePos_t z = spritePos(zomb);
         spritePos_t b = spritePos(blocks[i]);
-        if (z.bottom == b.top && z.left <= b.right && z.right >= b.left) {
+        if (z.bottom == b.top && z.left >= b.left - 3 && z.right <= b.right + 3) {
             isStand = true;
         }
     }
@@ -924,12 +926,13 @@ void zombieMovement(void) {
 
 
 void zombieWrap(void) {
+    
     for (int i = 0; i < 5; i++) {
-        if (zombie[i].x > LCD_WIDTH) {
+        if (zombie[i].x > LCD_WIDTH - 2) {
             zombie[i].x = -ZOMBIE_WIDTH;
-        } else if (zombie[i].x < -ZOMBIE_WIDTH) {
+        } else if (zombie[i].x   < -ZOMBIE_WIDTH + 1) {
             zombie[i].x = LCD_WIDTH;
-        }        
+        }    
     }
 }
 
@@ -982,10 +985,11 @@ void zombieFunctions(void) {
     if (fallingMessage_ctr == 1) {
         zombieMessage();
     }
+    zombieWrap();
     zombieOffscreen();
     zombieMovement();
     zombieFoodCollision();
-    zombieWrap();
+    
 }
 
 
@@ -1425,10 +1429,10 @@ void process(void) {
     pause();
     pauseDisplay();
     heroFunctions();
+    zombieFunctions();
     blockFunctions();
     treasureFunctions();
     foodFunctions();
-    zombieFunctions();
     drawSprites();
     if (lives <= 0) {
         endTime = current_time();
