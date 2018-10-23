@@ -34,7 +34,7 @@
 #define FOOD_HEIGHT (2)
 #define FOOD_WIDTH (2)
 
-#define CHANCE_EMPTY (0.35)
+#define CHANCE_EMPTY (0.3)
 #define CHANCE_FORBIDDEN (0.2)
 
 //PWM FROM EXAMPLE
@@ -189,6 +189,7 @@ static const PROGMEM uint8_t zombie_img[7] = {
     0b10001000,
 };
 
+uint8_t hero_direct[8];
 
 
 /** Structures **/
@@ -248,79 +249,46 @@ void usb_serial_send_int(int value) {
  * Direct draw LED and Char (code from topic 8 example 3)
  * ############################### **/
 
+void setup_direct(void) {
+    for (int i = 0; i < 8; i++) {
 
-void draw_char_direct(int x, int y, char ch, colour_t colour) {
-    // Do nothing if character does not fit on LCD.
-    if (x < 0 || x > LCD_X - CHAR_WIDTH || y < 0 || y > LCD_Y - CHAR_HEIGHT) {
-        return;
-    }
-
-    // Move LCD cursor to starting spot.
-    LCD_CMD(lcd_set_function, lcd_instr_basic | lcd_addr_horizontal);
-    LCD_CMD(lcd_set_x_addr, ( x & 0x7f));
-    LCD_CMD(lcd_set_y_addr, (y & 0x7f) / 8);
-
-    // Send pixel blocks.
-    for (int i = 0; i < CHAR_WIDTH; i++) {
-        uint8_t pixelBlock = pgm_read_byte(&(ASCII[ch - ' '][i]));
-
-        if (colour == BG_COLOUR) {
-            pixelBlock = ~pixelBlock;
+        // Visit each row of output bitmap
+        for (int j = 0; j < 8; j++) {
+            // Kind of like: smiley_direct[i][j] = smiley_original[j][7-i].
+            // Flip about the major diagonal.
+            uint8_t bit_val = BIT_VALUE(hero_img[j], (7 - i));
+            WRITE_BIT(hero_direct[i], j, bit_val);
         }
-
-        LCD_DATA(pixelBlock);
     }
 }
 
-
-void erase_char_direct(int x, int y, char ch, colour_t colour) {
-    // Do nothing if character does not fit on LCD.
-    if (x < 0 || x > LCD_X - CHAR_WIDTH || y < 0 || y > LCD_Y - CHAR_HEIGHT) {
-        return;
-    }
-
-    // Move LCD cursor to starting spot.
+void draw_hero(void) {
     LCD_CMD(lcd_set_function, lcd_instr_basic | lcd_addr_horizontal);
-    LCD_CMD(lcd_set_x_addr, ( x & 0x7f));
-    LCD_CMD(lcd_set_y_addr, (y & 0x7f) / 8);
+    LCD_CMD(lcd_set_x_addr, 50);
+    LCD_CMD(lcd_set_y_addr, direct_y/8);
 
-    // Send pixel blocks.
-    for (int i = 0; i < CHAR_WIDTH; i++) {
-        uint8_t pixelBlock = pgm_read_byte(&(ASCII[ch - ' '][i]));
+    for (int i = 0; i < 8; i++) {
+        LCD_DATA(hero_direct[i]);
+    }
+}
 
-        if (colour == BG_COLOUR) {
-            pixelBlock = ~pixelBlock;
-        }
+void erase_hero(void) {
+    LCD_CMD(lcd_set_function, lcd_instr_basic | lcd_addr_horizontal);
+    LCD_CMD(lcd_set_x_addr, 50);
+    LCD_CMD(lcd_set_y_addr, direct_y/8);
 
+    for (int i = 0; i < 8; i++) {
         LCD_DATA(0);
     }
 }
 
 
-
-void draw_string_direct(int x, int y, char * str, colour_t colour) {
-    for (int i = 0; str[i] != 0; i++, x += CHAR_WIDTH) {
-        draw_char_direct(x, y, str[i], colour);
-    }
-}
-
-void erase_string_direct(int x, int y, char * str, colour_t colour) {
-    for (int i = 0; str[i] != 0; i++, x += CHAR_WIDTH) {
-        erase_char_direct(x, y, str[i], colour);
-    }
-}
-
 void direct_message(void) {
-    erase_string_direct(20, direct_y, "GAME OVER", FG_COLOUR);
-    direct_y = (direct_y+1) % (LCD_WIDTH - 8);
-    draw_string_direct(20, direct_y, "GAME OVER", FG_COLOUR);
+    erase_hero();
+    direct_y = direct_y+1;
+    draw_hero();
 }
 
-void gameoverdirect_message(void) {
-    erase_string_direct(direct_x, 1, "GAME OVER", FG_COLOUR);
-    direct_x = (direct_x+1) % (LCD_WIDTH - 8);
-    draw_string_direct(direct_x, 1, "GAME OVER", FG_COLOUR);
-}
 
 /** #####################################
  *  GAME TIMER (code from ams 9 ex 2)
@@ -433,7 +401,7 @@ void drawBlocks(void) {
 
 void moveBlocks(void) {
     double rightPot = adc_read(1);
-    block_speed = rightPot / 1024;
+    block_speed = rightPot / 1137;
 
     for (int i = 0; i < block_ctr; i++) {
         if (blocks[i].y ==  row[0] || blocks[i].y == row[2]){
@@ -493,6 +461,7 @@ void drawSprites(void) {
     drawFood();
     drawZombies();
     show_screen();
+    setup_direct();
 }
 
 void playerPositionMessage(void) {
@@ -837,7 +806,7 @@ void heroFunctions(void) {
         heroControls();
         heroMovement();
     }
-    heroGravity();;
+    heroGravity();
     heroOffscreen();
     heroTreasure();
     scoreOnBlock();
@@ -1345,9 +1314,8 @@ void gameoverScreen(void) {
         } else {
             c = 0;
         }
-        clear_screen();
-
-        //draw_string(25, 1, strcpy_P(progmeme, PSTR("GAME OVER")), FG_COLOUR);
+        direct_message();
+        draw_string(25, 1, strcpy_P(progmeme, PSTR("GAME OVER")), FG_COLOUR);
         draw_string(10, 11, strcpy_P(progmeme, PSTR("Score:")), FG_COLOUR);
         draw_string(45, 11, scoreS, FG_COLOUR);
         draw_string(10, 21, strcpy_P(progmeme, PSTR("Time:")), FG_COLOUR);
@@ -1356,8 +1324,10 @@ void gameoverScreen(void) {
         draw_string(59, 21, secondS, FG_COLOUR); 
         draw_string(0, 31, strcpy_P(progmeme, PSTR("SW2 to quit")), FG_COLOUR);
         draw_string(0, 41, strcpy_P(progmeme, PSTR("SW3 to restart")), FG_COLOUR);
-        show_screen();
-        gameoverdirect_message();
+        if (current_time() - endTime > 3) {
+            show_screen();
+        }
+        
         if (BIT_IS_SET(PINF, 5) || c == 'r') {
             restartGame();
             wait = false;
@@ -1454,7 +1424,7 @@ void introScreen(void) {
     bool intro = true;
     int c;
     clear_screen();
-    draw_string(18, 11, strcpy_P(progmeme, PSTR("Vanessa Li")), BG_COLOUR);
+    draw_string(18, 11, strcpy_P(progmeme, PSTR("Vanessa Li")), FG_COLOUR);
     draw_string(20, 20, strcpy_P(progmeme, PSTR("n9966463")), FG_COLOUR);
     show_screen();
    while (intro) {
@@ -1471,6 +1441,8 @@ void introScreen(void) {
         }
    }
 }
+
+
 
 void process(void) {
     lcd_init(LCD_Contrast);
@@ -1492,13 +1464,12 @@ void process(void) {
     drawSprites();
     if (lives <= 0) {
         endTime = current_time();
-        direct_message();
-        if (direct_y > 45) {
-            gameoverMessage();
-            gameoverScreen();
-            wait = true;
-            return;
-        }
+        clear_screen();
+        show_screen();
+        gameoverMessage();
+        gameoverScreen();
+        wait = true;
+        return;
         
     }
 }
