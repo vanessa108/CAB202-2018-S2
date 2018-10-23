@@ -20,7 +20,6 @@
 #include "usb_serial.h"
 
 /** Game Constants **/
-#define BLOCK_SPEED (0.03)
 
 #define LCD_WIDTH (84)
 #define LCD_HEIGHT (48)
@@ -79,7 +78,6 @@ bool SW2Press;
 bool SW3Press;
 
 /** Game Booleans **/
-bool game_over = false;
 bool paused = false;
 bool wait = false;
 bool toggle = false;
@@ -90,7 +88,7 @@ bool moveRight = false;
 bool moveLeft = false;
 
 /** Pause display **/
-int lives = 10;
+int lives = 1;
 int score = 0;
 int foodCount = 5;
 int zombieCount = 5;
@@ -118,6 +116,7 @@ int fallingMessage_ctr = 0;
 /** Misc variables **/
 int numberOfZombiesFed = 0;
 uint8_t direct_y = 8; //for end animation 
+uint8_t direct_x= 0;
 bool zright[5] = {1, 1, 1, 1, 1}; //zombie moving right
 int q; //for usb serial input
 int endTime; //for game over screen
@@ -317,6 +316,12 @@ void direct_message(void) {
     draw_string_direct(20, direct_y, "GAME OVER", FG_COLOUR);
 }
 
+void gameoverdirect_message(void) {
+    erase_string_direct(direct_x, 1, "GAME OVER", FG_COLOUR);
+    direct_x = (direct_x+1) % (LCD_WIDTH - 8);
+    draw_string_direct(direct_x, 1, "GAME OVER", FG_COLOUR);
+}
+
 /** #####################################
  *  GAME TIMER (code from ams 9 ex 2)
  * ####################################**/
@@ -337,16 +342,18 @@ void setupBlocks(void) {
     int num_rows = 3;
     int num_cols = LCD_WIDTH / (BLOCK_WIDTH + 2);
     while (block_ctr < 20) {
+        int forbidden_ctr = 0;
+        int safe_ctr = 0;
         for (int row_num = 0; row_num < num_rows; row_num++) {
-            int forbidden_ctr = 0;
-            int safe_ctr = 0;
             srand(TCNT1);
             for (int col_num = 0; col_num < num_cols; col_num++) {
                 bool isSafe;
-                if (col_num == num_cols - 1 && safe_ctr == 0) {
+                if (row_num == 2 && safe_ctr < 7) {
                     isSafe = true;
-                } else if (col_num == (num_cols - 1) && forbidden_ctr == 0) {
+                    safe_ctr++;
+                } else if (row_num == 2 && forbidden_ctr < 2) {
                     isSafe = false;
+                    forbidden_ctr++;
                 } else {
                     if ( (double) rand() / RAND_MAX < CHANCE_EMPTY) {
                         continue;
@@ -426,17 +433,8 @@ void drawBlocks(void) {
 
 void moveBlocks(void) {
     double rightPot = adc_read(1);
-    if (rightPot < 1) {
-        block_speed = 0;
-    } else if (rightPot > 1 && rightPot < 256) {
-        block_speed = 0.1;
-    } else if (rightPot > 256 && rightPot < 512) {
-        block_speed = 0.3;
-    } else if (rightPot > 512 && rightPot < 768) {
-        block_speed = 0.5;
-    } else if (rightPot > 768 && rightPot < 1024) {
-        block_speed = 0.7;
-    }
+    block_speed = rightPot / 1024;
+
     for (int i = 0; i < block_ctr; i++) {
         if (blocks[i].y ==  row[0] || blocks[i].y == row[2]){
             blocks[i].dx = block_speed;
@@ -465,10 +463,10 @@ void blockFunctions(void) {
 void moveTreasure(void) {
     if (!toggle) {
         if (movingRight) {
-            treasure.dx = 0.5;
+            treasure.dx = 0.7;
         } 
         if (!movingRight) {
-            treasure.dx = -0.5;
+            treasure.dx = -0.7;
         }  
         treasure.x += treasure.dx;  
     } 
@@ -843,7 +841,7 @@ void heroFunctions(void) {
     heroOffscreen();
     heroTreasure();
     scoreOnBlock();
-    //zombieHeroCollision();
+    zombieHeroCollision();
     specialisedRespawn();
 }
 
@@ -1298,7 +1296,6 @@ void freeSprites(void) {
 
 void restartGame(void) {
     clear_screen();
-    game_over = false;
     end_game = false;
     paused = false;
     toggle = false;
@@ -1349,7 +1346,7 @@ void gameoverScreen(void) {
         }
         clear_screen();
 
-        draw_string(25, 1, strcpy_P(progmeme, PSTR("GAME OVER")), FG_COLOUR);
+        //draw_string(25, 1, strcpy_P(progmeme, PSTR("GAME OVER")), FG_COLOUR);
         draw_string(10, 11, strcpy_P(progmeme, PSTR("Score:")), FG_COLOUR);
         draw_string(45, 11, scoreS, FG_COLOUR);
         draw_string(10, 21, strcpy_P(progmeme, PSTR("Time:")), FG_COLOUR);
@@ -1359,6 +1356,7 @@ void gameoverScreen(void) {
         draw_string(0, 31, strcpy_P(progmeme, PSTR("SW2 to quit")), FG_COLOUR);
         draw_string(0, 41, strcpy_P(progmeme, PSTR("SW3 to restart")), FG_COLOUR);
         show_screen();
+        gameoverdirect_message();
         if (BIT_IS_SET(PINF, 5) || c == 'r') {
             restartGame();
             wait = false;
@@ -1510,7 +1508,7 @@ int main(void) {
     teensySetup();
     introScreen();
     setupGame();
-    while (!game_over && !end_game) {
+    while (!end_game) {
         process();
         _delay_ms(33);
     }
