@@ -597,35 +597,41 @@ spritePos_t spritePos(Sprite s) {
     return p;
 }
 
-bool pixel_level_collision(Sprite h, Sprite b) {
-    for (int x_h = 0; x_h < HERO_WIDTH; x_h++) {
-        if (((h.bitmap[1] >> (7- x_h)) & 1) != 0) {
-            int h_solidx = h.x + x_h;
-            for (int x_b = 0; x_b < 2; x_b++) {  
-                if ( ((b.bitmap[(int) 5+ x_b/8] >> (7- x_b % 8)) & 1) != 0) {
-                    int b_solidx = b.x + x_b;
-                    if (b_solidx == h_solidx - 2 || b_solidx == h_solidx+2) {
-                        return true;
-                    }
-                }
-            }
-        }
-    }
-    return false;
-}
+// bool pixel_level_collision(Sprite h, Sprite b) {
+//     for (int x_h = 0; x_h < HERO_WIDTH; x_h++) {
+//         if (((h.bitmap[0] >> (7- x_h)) & 1) != 0) {
+//             int h_solidx = h.x + x_h;
+//             for (int x_b = 0; x_b < 2; x_b++) {  
+//                 if ( ((b.bitmap[(int) 5+ x_b/8] >> (7- x_b % 8)) & 1) != 0) {
+//                     int b_solidx = b.x + x_b;
+//                     if (b_solidx == h_solidx - 2 || b_solidx == h_solidx+2) {
+//                         return true;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+//     return false;
+// }
 
-bool isHeroHolding(void) {
-    for (int i = 0; i < block_ctr; i++) {
-       spritePos_t blockPos = spritePos(blocks[i]);
-       spritePos_t heroPos = spritePos(hero); 
-       if (heroPos.top == blockPos.bottom  && heroPos.right <= blockPos.right + 5 && heroPos.left >= blockPos.left - 5) {
-           if (pixel_level_collision( hero, blocks[i]) ) {
-               return true;
-           }
-       } 
-    }
-    return false;
-}
+// bool isHeroHolding(void) {
+//     for (int i = 0; i < block_ctr; i++) {
+//        spritePos_t blockPos = spritePos(blocks[i]);
+//        spritePos_t heroPos = spritePos(hero); 
+//        if (heroPos.top == blockPos.bottom  && heroPos.right <= blockPos.right + 5 && heroPos.left >= blockPos.left - 5) {
+//            if (blocks[i].bitmap == safe_img && pixel_level_collision( hero, blocks[i])) {
+//                return true;
+//            } else if (blocks[i].bitmap != safe_img) {
+//                 lives -= 1;
+//                 playerDeathMessage(strcpy_P(progmeme, PSTR("Forbidden block")));
+//                 heroRespawn(); 
+//            }
+//        } 
+//     }
+//     return false;
+// }
+
+
 
 bool isHeroStanding(void) {
     bool isStand = false;
@@ -740,7 +746,7 @@ void heroMovement(void) {
 
 void heroGravity(void) {
     bool heroStand = isHeroStanding();
-    bool heroHold = isHeroHolding();
+    //bool heroHold = isHeroHolding();
     if (!heroStand) {
         hero.dy += 0.2;
         if (hero.dy > 1) {
@@ -749,7 +755,7 @@ void heroGravity(void) {
         moveRight = false;
         moveLeft = false;
     }
-    if (heroStand || heroHold) {
+    if (heroStand) {//heroHold) {
         hero.dy = 0;
     }
     hero.y += hero.dy;
