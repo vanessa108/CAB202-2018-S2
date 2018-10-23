@@ -666,7 +666,22 @@ bool isHeroStanding(void) {
     return isStand;
 }
 
-
+void isHeroCollidingTop(void) {
+    for (int i = 0; i < block_ctr; i++) {
+        spritePos_t b = spritePos(blocks[i]);
+        spritePos_t h = spritePos(hero);
+        if (h.top < (b.bottom + 1) && h.left > b.right && h.right < b.left)  {
+            if (blocks[i].bitmap == safe_img) {
+                hero.dy = 0;
+                hero.y += 1;
+            } else {
+                lives -= 1;
+                playerDeathMessage(strcpy_P(progmeme, PSTR("Forbidden block")));
+                heroRespawn();
+            }
+        }
+    }
+}
 
 bool isHeroCollidingSide(void) {
     bool isCollide = false; 
@@ -676,7 +691,13 @@ bool isHeroCollidingSide(void) {
         if ((h.left >= b.right + 3 || h.right >= b.left - 3) && 
         ((h.top < b.top && h.bottom > b.top) || 
         (h.bottom > b.bottom && h.top < b.bottom))) {
-            isCollide = true;
+            if (blocks[i].bitmap == safe_img) {
+                return true;
+            } else {
+                lives -= 1;
+                playerDeathMessage(strcpy_P(progmeme, PSTR("Forbidden block")));
+                heroRespawn(); 
+            }
         }
     }
     return isCollide;
@@ -701,14 +722,15 @@ void scoreOnBlock(void) {
 }
 
 void heroControls(void) {
-        if (rightPress) {
+    bool heroStand = isHeroStanding();
+        if (rightPress && heroStand) {
             if (moveLeft) {
                 moveLeft = false;
             } else {
                 moveRight = true;
             }
         } 
-        if (leftPress) {
+        if (leftPress && heroStand) {
             if (moveRight) {
                 moveRight = false;
             } else {
