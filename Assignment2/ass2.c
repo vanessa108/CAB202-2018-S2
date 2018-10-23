@@ -88,7 +88,7 @@ bool moveRight = false;
 bool moveLeft = false;
 
 /** Pause display **/
-int lives = 1;
+int lives = 10;
 int score = 0;
 int foodCount = 5;
 int zombieCount = 5;
@@ -588,7 +588,6 @@ void specialisedRespawn(void) {
 }
 
 void heroRespawn(void) {
-    //free(&hero);
     if (lives > 0) {
         respawn = true;
     }
@@ -677,14 +676,15 @@ bool isHeroNearBlock (void) {
 }
 
 
-void isHeroCollidingTop(void) {
+void isHeroCollidingForbidden(void) {
     for (int i = 0; i < block_ctr; i++) {
         spritePos_t b = spritePos(blocks[i]);
         spritePos_t h = spritePos(hero);
-        if (h.top < (b.bottom + 1) && h.left > b.right && h.right < b.left)  {
-            if (blocks[i].bitmap == safe_img) {
-                hero.dy = 0;
-                hero.y += 1;
+        if (h.top < b.bottom && h.bottom > b.top && h.left > b.right && h.right < b.left)  {
+            if (blocks[i].bitmap != safe_img) {
+                lives -= 1;
+                playerDeathMessage(strcpy_P(progmeme, PSTR("Forbidden block")));
+                heroRespawn();
             } 
         }
     }
@@ -843,6 +843,7 @@ void heroFunctions(void) {
     scoreOnBlock();
     zombieHeroCollision();
     specialisedRespawn();
+    isHeroCollidingForbidden();
 }
 
 /** Zombie and Food **/
