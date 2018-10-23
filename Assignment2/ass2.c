@@ -375,14 +375,14 @@ void setupBlocks(void) {
 }
 
 void startBlock (void) {
-    sprite_init(&blocks[block_ctr], 74, 9, BLOCK_WIDTH, BLOCK_HEIGHT, safe_img); 
+    sprite_init(&blocks[block_ctr], 50, 0, BLOCK_WIDTH, BLOCK_HEIGHT, safe_img); 
     block_ctr++;
 }
 
 
 
 void setupHero(void) {
-    sprite_init(&hero, blocks[block_ctr-1].x , blocks[block_ctr-1].y - HERO_HEIGHT, 
+    sprite_init(&hero, blocks[block_ctr-1].x , blocks[block_ctr-1].y + BLOCK_HEIGHT, 
     HERO_WIDTH, HERO_HEIGHT, hero_img);
 }
 
@@ -403,7 +403,7 @@ void drawFood(void) {
     }
 }
 
-int zombie_start[5] = {5, 19, 31, 53, 69};
+int zombie_start[5] = {5, 15, 23, 41, 69};
 void setupZombies(void) {
     for (int i = 0; i < 5; i++) {
         sprite_init(&zombie[i], zombie_start[i], -7, ZOMBIE_WIDTH, ZOMBIE_HEIGHT, load_rom_bitmap(zombie_img, 7));
@@ -610,39 +610,39 @@ spritePos_t spritePos(Sprite s) {
     return p;
 }
 
-// bool pixel_level_collision(Sprite h, Sprite b) {
-//     for (int x_h = 0; x_h < HERO_WIDTH; x_h++) {
-//         if (((h.bitmap[0] >> (7- x_h)) & 1) != 0) {
-//             int h_solidx = h.x + x_h;
-//             for (int x_b = 0; x_b < 2; x_b++) {  
-//                 if ( ((b.bitmap[(int) 5+ x_b/8] >> (7- x_b % 8)) & 1) != 0) {
-//                     int b_solidx = b.x + x_b;
-//                     if (b_solidx == h_solidx - 2 || b_solidx == h_solidx+2) {
-//                         return true;
-//                     }
-//                 }
-//             }
-//         }
-//     }
-//     return false;
-// }
+bool pixel_level_collision(Sprite h, Sprite b) {
+    for (int x_h = 0; x_h < HERO_WIDTH; x_h++) {
+        if (((h.bitmap[1] >> (7- x_h)) & 1) != 0) {
+            int h_solidx = h.x + x_h;
+            for (int x_b = 0; x_b < 2; x_b++) {  
+                if ( ((b.bitmap[(int) 3+ x_b/8] >> (7- x_b % 8)) & 1) != 0) {
+                    int b_solidx = b.x + x_b;
+                    if (b_solidx == h_solidx - 2 || b_solidx == h_solidx+2) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
 
-// bool isHeroHolding(void) {
-//     for (int i = 0; i < block_ctr; i++) {
-//        spritePos_t blockPos = spritePos(blocks[i]);
-//        spritePos_t heroPos = spritePos(hero); 
-//        if (heroPos.top == blockPos.bottom  && heroPos.right <= blockPos.right + 5 && heroPos.left >= blockPos.left - 5) {
-//            if (blocks[i].bitmap == safe_img && pixel_level_collision( hero, blocks[i])) {
-//                return true;
-//            } else if (blocks[i].bitmap != safe_img) {
-//                 lives -= 1;
-//                 playerDeathMessage(strcpy_P(progmeme, PSTR("Forbidden block")));
-//                 heroRespawn(); 
-//            }
-//        } 
-//     }
-//     return false;
-// }
+bool isHeroHolding(void) {
+    for (int i = 0; i < block_ctr; i++) {
+       spritePos_t blockPos = spritePos(blocks[i]);
+       spritePos_t heroPos = spritePos(hero); 
+       if (heroPos.top == blockPos.bottom  && heroPos.right <= blockPos.right + 5 && heroPos.left >= blockPos.left - 5) {
+           if (blocks[i].bitmap == safe_img && pixel_level_collision( hero, blocks[i])) {
+               return true;
+           } else if (blocks[i].bitmap != safe_img) {
+                lives -= 1;
+                playerDeathMessage(strcpy_P(progmeme, PSTR("Forbidden block")));
+                heroRespawn(); 
+           }
+       } 
+    }
+    return false;
+}
 
 
 
@@ -728,14 +728,15 @@ void scoreOnBlock(void) {
 
 void heroControls(void) {
     bool heroStand = isHeroStanding();
-        if (rightPress && heroStand) {
+    bool heroHold = isHeroHolding();
+        if (rightPress && (heroStand || heroHold)) {
             if (moveLeft) {
                 moveLeft = false;
             } else {
                 moveRight = true;
             }
         } 
-        if (leftPress && heroStand) {
+        if (leftPress && (heroStand || heroHold)) {
             if (moveRight) {
                 moveRight = false;
             } else {
@@ -786,7 +787,7 @@ void heroMovement(void) {
 
 void heroGravity(void) {
     bool heroStand = isHeroStanding();
-    //bool heroHold = isHeroHolding();
+    bool heroHold = isHeroHolding();
     bool nearBlock = isHeroNearBlock();
     if (!heroStand) {
         hero.dy += 0.25;
@@ -798,7 +799,7 @@ void heroGravity(void) {
         moveRight = false;
         moveLeft = false;
     }
-    if (heroStand) {//heroHold) {
+    if (heroStand ||heroHold) {
         hero.dy = 0;
     }
     hero.y += hero.dy;
@@ -812,7 +813,6 @@ void heroTreasure(void) {
         treasure.is_visible = 0;
         treasure.y = LCD_HEIGHT + 10;
         treasure.x = -15;
-        //free(&treasure);
         heroRespawn();
         playerTreasureMessage();
     }
