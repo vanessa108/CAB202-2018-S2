@@ -945,11 +945,6 @@ void zombieMovement(void) {
     for (int i = 0; i < 5; i++) {
         bool zombieStand = isZombieStanding(zombie[i]);
         if (!zombieStand && zombie[i].dx != 0) {
-            // if (zombie[i].x > LCD_WIDTH) {
-            //     zombie[i].x = - ZOMBIE_WIDTH - 1;
-            // } else if (zombie[i].x < -ZOMBIE_WIDTH) {
-            //     zombie[i].x = LCD_WIDTH + 1;
-            // }
             if (zombie[i].dx > 0) {
                 zombie[i].x -= 2; 
                 zright[i] = 0;
@@ -975,7 +970,7 @@ void zombieWrap(void) {
     for (int i = 0; i < 5; i++) {
         if (zombie[i].x > LCD_WIDTH - 2.5) {
             zombie[i].x = -ZOMBIE_WIDTH + 2.5;
-        } else if (zombie[i].x   < -ZOMBIE_WIDTH + 3) {
+        } else if (zombie[i].x   < -2.5) {
             zombie[i].x = LCD_WIDTH - 2.5;
         }    
     }
