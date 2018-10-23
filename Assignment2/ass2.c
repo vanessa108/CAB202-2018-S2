@@ -674,11 +674,7 @@ void isHeroCollidingTop(void) {
             if (blocks[i].bitmap == safe_img) {
                 hero.dy = 0;
                 hero.y += 1;
-            } else {
-                lives -= 1;
-                playerDeathMessage(strcpy_P(progmeme, PSTR("Forbidden block")));
-                heroRespawn();
-            }
+            } 
         }
     }
 }
@@ -688,16 +684,12 @@ bool isHeroCollidingSide(void) {
     for (int i = 0; i < block_ctr; i++) {
         spritePos_t b = spritePos(blocks[i]);
         spritePos_t h = spritePos(hero);
-        if ((h.left >= b.right + 3 || h.right >= b.left - 3) && 
+        if ((h.left >= b.right - 2 || h.right >= b.left + 2) && 
         ((h.top < b.top && h.bottom > b.top) || 
         (h.bottom > b.bottom && h.top < b.bottom))) {
             if (blocks[i].bitmap == safe_img) {
                 return true;
-            } else {
-                lives -= 1;
-                playerDeathMessage(strcpy_P(progmeme, PSTR("Forbidden block")));
-                heroRespawn(); 
-            }
+            } 
         }
     }
     return isCollide;
@@ -751,7 +743,7 @@ void heroMovement(void) {
     }
     if (upPress) {
         if (heroStand) {
-        hero.dy = -2.15;
+        hero.dy = -2.25;
         hero.y += hero.dy;
         }   
     }
@@ -783,7 +775,7 @@ void heroGravity(void) {
     bool heroStand = isHeroStanding();
     //bool heroHold = isHeroHolding();
     if (!heroStand) {
-        hero.dy += 0.2;
+        hero.dy += 0.25;
         if (hero.dy > 1) {
             hero.dy = 1;
         }
@@ -802,7 +794,8 @@ void heroTreasure(void) {
     if (h.bottom >= t.top && h.left >= t.left - 3 && h.right <= t.right + 3) {
         lives += 2;
         treasure.is_visible = 0;
-        treasure.y = -10;
+        treasure.y = LCD_HEIGHT + 10;
+        treasure.x = -15;
         //free(&treasure);
         heroRespawn();
         playerTreasureMessage();
@@ -952,6 +945,11 @@ void zombieMovement(void) {
     for (int i = 0; i < 5; i++) {
         bool zombieStand = isZombieStanding(zombie[i]);
         if (!zombieStand && zombie[i].dx != 0) {
+            // if (zombie[i].x > LCD_WIDTH) {
+            //     zombie[i].x = - ZOMBIE_WIDTH - 1;
+            // } else if (zombie[i].x < -ZOMBIE_WIDTH) {
+            //     zombie[i].x = LCD_WIDTH + 1;
+            // }
             if (zombie[i].dx > 0) {
                 zombie[i].x -= 2; 
                 zright[i] = 0;
@@ -975,10 +973,10 @@ void zombieMovement(void) {
 void zombieWrap(void) {
     
     for (int i = 0; i < 5; i++) {
-        if (zombie[i].x > LCD_WIDTH - 2) {
-            zombie[i].x = -ZOMBIE_WIDTH;
-        } else if (zombie[i].x   < -ZOMBIE_WIDTH + 1) {
-            zombie[i].x = LCD_WIDTH;
+        if (zombie[i].x > LCD_WIDTH - 2.5) {
+            zombie[i].x = -ZOMBIE_WIDTH + 2.5;
+        } else if (zombie[i].x   < -ZOMBIE_WIDTH + 3) {
+            zombie[i].x = LCD_WIDTH - 2.5;
         }    
     }
 }
@@ -1020,6 +1018,7 @@ void zombieOffscreen(void) {
 
 
 void zombieFunctions(void) { 
+    zombieWrap();
     zombieTimer();
     if (zombiesExist) {
         zombieGravity();
@@ -1032,7 +1031,6 @@ void zombieFunctions(void) {
     if (fallingMessage_ctr == 1) {
         zombieMessage();
     }
-    zombieWrap();
     zombieOffscreen();
     zombieMovement();
     zombieFoodCollision();
@@ -1476,8 +1474,8 @@ void process(void) {
     readButtons(); 
     pause();
     pauseDisplay();
-    heroFunctions();
     zombieFunctions();
+    heroFunctions();
     blockFunctions();
     treasureFunctions();
     foodFunctions();
