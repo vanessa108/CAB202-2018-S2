@@ -338,15 +338,27 @@ void setupBlocks(void) {
     int num_cols = LCD_WIDTH / (BLOCK_WIDTH + 2);
     while (block_ctr < 20) {
         for (int row_num = 0; row_num < num_rows; row_num++) {
+            int forbidden_ctr = 0;
+            int safe_ctr = 0;
             srand(TCNT1);
             for (int col_num = 0; col_num < num_cols; col_num++) {
                 bool isSafe;
-                if ( (double) rand() / RAND_MAX < CHANCE_EMPTY) {
-                    continue;
+                if (col_num == num_cols - 1 && safe_ctr == 0) {
+                    isSafe = true;
+                } else if (col_num == (num_cols - 1) && forbidden_ctr == 0) {
+                    isSafe = false;
                 } else {
-                    isSafe = ( (double) rand()/RAND_MAX > CHANCE_FORBIDDEN);
+                    if ( (double) rand() / RAND_MAX < CHANCE_EMPTY) {
+                        continue;
+                    } else {
+                        isSafe = ( (double) rand()/RAND_MAX > CHANCE_FORBIDDEN);
+                        if (isSafe) {
+                            safe_ctr++;
+                        } else if (!isSafe) {
+                            forbidden_ctr++;
+                        }
+                    }
                     int col_width = 12;
-                    //int row_height = BLOCK_HEIGHT + HERO_HEIGHT + 3;
                     double x = col_num * col_width;
                     double y = row[row_num];
                     if (isSafe) {
@@ -355,10 +367,11 @@ void setupBlocks(void) {
                         sprite_init(&blocks[block_ctr], x, y, BLOCK_WIDTH, BLOCK_HEIGHT, load_rom_bitmap(forbidden_img,4));
                     }
                     block_ctr++;
+                    
                 }
             }
         } break;
-    }
+    } 
 }
 
 void startBlock (void) {
@@ -963,7 +976,7 @@ void zombieFoodCollision(void) {
                 foodCount++;
                 zombie[i].y = -ZOMBIE_HEIGHT;
                 zombieCount--;
-                lives += 10;
+                score += 10;
                 zombieFoodMessage();
                 numberOfZombiesFed++;
             }
