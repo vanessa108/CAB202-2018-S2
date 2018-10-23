@@ -666,6 +666,19 @@ bool isHeroStanding(void) {
     return isStand;
 }
 
+bool isHeroNearBlock (void) {
+    bool nearBlock = false;
+    for (int i = 0; i < block_ctr; i++) {
+       spritePos_t blockPos = spritePos(blocks[i]);
+       spritePos_t heroPos = spritePos(hero); 
+       if (hero.dy > 0 && (heroPos.bottom  >= blockPos.top - 2)  && heroPos.right <= blockPos.right + 5 && heroPos.left >= blockPos.left - 5) {
+            nearBlock = true; 
+       }
+    }
+    return nearBlock;
+}
+
+
 void isHeroCollidingTop(void) {
     for (int i = 0; i < block_ctr; i++) {
         spritePos_t b = spritePos(blocks[i]);
@@ -774,11 +787,14 @@ void heroMovement(void) {
 void heroGravity(void) {
     bool heroStand = isHeroStanding();
     //bool heroHold = isHeroHolding();
+    bool nearBlock = isHeroNearBlock();
     if (!heroStand) {
         hero.dy += 0.25;
         if (hero.dy > 1) {
             hero.dy = 1;
         }
+    }
+    if (nearBlock) {
         moveRight = false;
         moveLeft = false;
     }
