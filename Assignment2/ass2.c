@@ -88,7 +88,7 @@ bool moveRight = false;
 bool moveLeft = false;
 
 /** Pause display **/
-int lives = 10;
+int lives = 1;
 int score = 0;
 int foodCount = 5;
 int zombieCount = 5;
@@ -268,7 +268,7 @@ void draw_hero(void) {
     LCD_CMD(lcd_set_y_addr, direct_y/8);
 
     for (int i = 0; i < 8; i++) {
-        LCD_DATA(hero_direct[i]);
+        lcd_write(1, hero_direct[i]);
     }
 }
 
@@ -278,16 +278,20 @@ void erase_hero(void) {
     LCD_CMD(lcd_set_y_addr, direct_y/8);
 
     for (int i = 0; i < 8; i++) {
-        LCD_DATA(0);
+        lcd_write(1, 0);
     }
 }
 
-
+bool direct_animation;
 void direct_message(void) {
-    erase_hero();
-    direct_y = direct_y+1;
-    draw_hero();
+    if (direct_animation) {
+        erase_hero();
+        direct_y = direct_y+1;
+        draw_hero();
+    }
+    
 }
+
 
 
 /** #####################################
@@ -313,7 +317,7 @@ void setupBlocks(void) {
         int forbidden_ctr = 0;
         int safe_ctr = 0;
         for (int row_num = 0; row_num < num_rows; row_num++) {
-            srand(TCNT1);
+            srand(TCNT0);
             for (int col_num = 0; col_num < num_cols; col_num++) {
                 bool isSafe;
                 if (row_num == 2 && safe_ctr < 7) {
@@ -508,7 +512,8 @@ void scoreMessage(void) {
 void playerDeathMessage(char * reason) {
     
     usb_serial_send(strcpy_P(progmeme, PSTR("\n\rPlayer has died")));
-    usb_serial_send(strcpy_P(progmeme, PSTR("\r\n Cause of death: "))); usb_serial_send(reason);
+    usb_serial_send(strcpy_P(progmeme, PSTR("\r\n Cause of death: "))); 
+    usb_serial_send(reason);
     livesMessage();
     scoreMessage();
     gameTimeMessage();
@@ -602,7 +607,7 @@ bool isHeroHolding(void) {
                return true;
            } else if (blocks[i].bitmap != safe_img) {
                 lives -= 1;
-                playerDeathMessage(strcpy_P(progmeme, PSTR("Forbidden block")));
+                playerDeathMessage("Forbidden block");
                 heroRespawn(); 
            }
        } 
@@ -624,7 +629,7 @@ bool isHeroStanding(void) {
                 hero.y = blockPos.top - HERO_HEIGHT;
             } else {
                 lives -= 1;
-                playerDeathMessage(strcpy_P(progmeme, PSTR("Forbidden block")));
+                playerDeathMessage("Forbidden block");
                 heroRespawn();
             }
        }
@@ -652,7 +657,7 @@ void isHeroCollidingForbidden(void) {
         if (h.top < b.bottom && h.bottom > b.top && h.left > b.right && h.right < b.left)  {
             if (blocks[i].bitmap != safe_img) {
                 lives -= 1;
-                playerDeathMessage(strcpy_P(progmeme, PSTR("Forbidden block")));
+                playerDeathMessage("Forbidden block");
                 heroRespawn();
             } 
         }
@@ -680,7 +685,7 @@ void heroOffscreen(void) {
     if (heroPos.bottom > LCD_HEIGHT || heroPos.top < 0 ||
     heroPos.left < 0 || heroPos.right > LCD_WIDTH) {
         lives -= 1;
-        playerDeathMessage(strcpy_P(progmeme, PSTR("Player is offscreen")));
+        playerDeathMessage("Player is offscreen");
         heroRespawn();
     }
 
@@ -792,7 +797,7 @@ void zombieHeroCollision(void) {
         if (((h.left <= z.left && h.right >= z.left) || (h.right >= z.right && h.left <= z.right))
         && (h.top <=  z.top && h.bottom >= z.top ) ) {
             lives -= 1;
-            playerDeathMessage(strcpy_P(progmeme, PSTR("Player collided with zombie")));
+            playerDeathMessage("Zombie Colission");
             heroRespawn();
         }
     }
@@ -821,7 +826,7 @@ bool isZombieStanding(Sprite zomb) {
     for (int i = 0; i < block_ctr; i++) {
         spritePos_t z = spritePos(zomb);
         spritePos_t b = spritePos(blocks[i]);
-        if (z.bottom == b.top && z.left >= b.left - 3 && z.right <= b.right + 3) {
+        if (z.bottom == b.top && z.left >= b.left - 2 && z.right <= b.right + 2) {
             isStand = true;
         }
     }
@@ -1300,6 +1305,10 @@ void gameoverMessage(void) {
 
 void gameoverScreen(void) {
     while (wait) {
+        direct_animation = true;
+        if (direct_y > LCD_HEIGHT) {
+            direct_animation = false;
+        }
         int c;
         char minuteS[15];
         char secondS[15];
