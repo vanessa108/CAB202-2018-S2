@@ -51,18 +51,19 @@ static uint8_t SW2PrevState = 0;
 static uint8_t SW3PrevState = 0;
 
 volatile uint8_t up_ctr = 0;
-volatile uint8_t up_cls = 0;
 volatile uint8_t down_ctr = 0;
-volatile uint8_t down_cls = 0;
 volatile uint8_t left_ctr = 0;
-volatile uint8_t left_cls = 0;
 volatile uint8_t right_ctr = 0;
-volatile uint8_t right_cls = 0;
 volatile uint8_t centre_ctr = 0;
-volatile uint8_t centre_cls = 0;
 volatile uint8_t SW2_ctr = 0;
-volatile uint8_t SW2_cls = 0;
 volatile uint8_t SW3_ctr = 0;
+
+volatile uint8_t up_cls = 0;
+volatile uint8_t down_cls = 0;
+volatile uint8_t left_cls = 0;
+volatile uint8_t right_cls = 0;
+volatile uint8_t centre_cls = 0;
+volatile uint8_t SW2_cls = 0;
 volatile uint8_t SW3_cls = 0;
 
 bool downPrevious = false;
@@ -88,7 +89,7 @@ bool moveRight = false;
 bool moveLeft = false;
 
 /** Pause display **/
-int lives = 1;
+int lives = 10;
 int score = 0;
 int foodCount = 5;
 int zombieCount = 5;
@@ -132,7 +133,6 @@ Sprite treasure;
 Sprite food[5];
 
 Sprite zombie[5];
-
 
 /* Progmeme pointer for strings */
 char progmeme[200];
@@ -188,7 +188,6 @@ uint8_t hero_img [8] =  {
     0b10001000,
 };
 
-
 uint8_t hero_direct[8];
 
 
@@ -200,67 +199,115 @@ typedef struct spritePos_t {
     int right;
 } spritePos_t;
 
-typedef struct blockStand_t {
-    bool isStand; 
-    int block_num;
-} blockStand_t;
+/**################Functions################# **/ 
+//Direct control of LCD Write 
+void setup_direct();
+void draw_hero();
+void erase_hero();
+void direct_message();
+//SET UP SPRITES
+void setUpGame();
+void setupBlocks();
+void startBlock();
+void setupHero();
+void setupTreasure();
+void setupFood();
+void setupZombies();
+void startSerialMessage();
+//DRAW SPRITES
+void drawSprites();
+void clear_screen();
+void drawBlocks();
+void sprite_draw(sprite_id sprite);
+void sprite_draw(sprite_id sprite );
+void drawFood();
+void drawZombies();
+void show_screen();
+void setup_direct();
+//BLOCK FUNCTIONS
+void blockFunctions();
+void moveBlocks();
+void updateBlocks();
+//TREASURE FUNCTIONS
+void treasureFunctions();
+void checkTreasure();
+void moveTreasure();
+//SPRITE POSITION FUNCTIONs
+spritePos_t spritePos(Sprite s);
+bool pixel_level_collision(Sprite h, Sprite b);
+//HERO FUNCTIONS
+void heroFunctions();
+bool isHeroHolding();
+bool isHeroStanding();
+bool isHeroNearBlock();
+bool isHeroCollidingSide();
+void isHeroCollidingForbidden();
+void heroOffscreen();
+void scoreOnBlock();
+void heroControls();
+void heroMovement();
+void heroGravity();
+void heroTreasure();
+void zombieHeroCollision();
+void specialisedRespawn();
+void heroRespawn();
+//ZOMBIE FUNCTIONS
+void zombieFunctions();
+bool isZombieStanding();
+void zombieTimer();
+void zombieGravity();
+void zombieMovement();
+void zombieWrap();
+void zombieFoodCollision();
+void zombieOffscreen();
+//Flashing leds
+void flashingLEDS();
+void turnOnLEDS();
+void clearLEDS();
+//FOOD FUNCTIONS
+void foodFunctions();
+void dropFood();
+void foodOnBlock();
+void foodWrap();
+//DEBOUNCE BUTTONS
+void enableInput();
+void debounceButtons();
+void readButtons();
+//TEENSY SETUP
+void teensySetup();
+void set_duty_cycle(int duty_cycle);
+void adc_init();
+uint16_t adc_read(uint8_t channel);
+//GAME MECHANICS
+void restartGame();
+void pause();
+void process();
+double current_time();
+//GAME DISPLAYS
+void gameoverScreen();
+void livesDisplay();
+void scoreDisplay();
+void timeDisplay();
+void foodDisplay();
+void zombieDisplay();
+void pauseDisplay();
+void introScreen();
+//USB SERIAL SEND
+void usb_serial_send(char * message);
+void usb_serial_send_int(int value);
+void playerPositionMessage();
+void startSerialMessage();
+void gameTimeMessage();
+void livesMessage();
+void scoreMessage();
+void playerDeathMessage();
+void playerTreasureMessage();
+void playerRespawnMessage();
+void pauseMessage();
+void zombieMessage();
+void zombieFoodMessage();
+void gameoverMessage();
 
-/** #####################################
- *  ADC FROM adc example
- * ####################################**/
-
-void adc_init() {
-    //ADC Enable and prescaler of 128
-    ADCSRA = (1 << ADEN) | (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0);
-}
-
-uint16_t adc_read(uint8_t channel) {
-    ADMUX = (channel & ((1 << 5) - 1)) | (1 << REFS0);
-    ADCSRB = (channel & (1 << 5));
-
-    ADCSRA |= (1 << ADSC);
-
-    while ( ADCSRA & (1 << ADSC)) {}
-    return ADC;
-}
-
-/** #####################################
- *  SERIAL COMMMUNICATION FROM usb_sprite example
- * ####################################**/
-
-void usb_serial_send(char * message) {
-	// Cast to avoid "error: pointer targets in passing argument 1 
-	//	of 'usb_serial_write' differ in signedness"
-	usb_serial_write((uint8_t *) message, strlen(message));
-}
-
-/*
-**	Transmits an integer value via usb_serial
-*/
-
-void usb_serial_send_int(int value) {
-	static char buffer[8];
-	snprintf(buffer, sizeof(buffer), "%d", value);
-	usb_serial_send( buffer );
-}
-
-
-/**###############
- * Direct draw LED and Char (code from topic 8 example 3)
- * ############################### **/
-
-void setup_direct(void) {
-    for (int i = 0; i < 8; i++) {
-
-        // Visit each row of output bitmap
-        for (int j = 0; j < 8; j++) {
-            // Kind of like: smiley_direct[i][j] = smiley_original[j][7-i].
-            // Flip about the major diagonal.
-            uint8_t bit_val = BIT_VALUE(hero_img[j], (7 - i));
-            WRITE_BIT(hero_direct[i], j, bit_val);
-        }
-    }
-}
 
 void draw_hero(void) {
     LCD_CMD(lcd_set_function, lcd_instr_basic | lcd_addr_horizontal);
@@ -288,25 +335,9 @@ void direct_message(void) {
         erase_hero();
         direct_y = direct_y+1;
         draw_hero();
-    }
-    
+    }  
 }
 
-
-
-/** #####################################
- *  GAME TIMER (code from ams 9 ex 2)
- * ####################################**/
-
-volatile uint32_t time_ctr = 0;
-//interrup service 
-ISR(TIMER1_OVF_vect) {
-    time_ctr++;
-}
-
-double current_time(void) {
-    return (time_ctr * 65536.0 + TCNT1) * 64 / 8e6;
-}
 
 /* SETUP FUNCTION */
 int row[3] = {21, 33, 45};
@@ -358,8 +389,6 @@ void startBlock (void) {
     block_ctr++;
 }
 
-
-
 void setupHero(void) {
     sprite_init(&hero, blocks[block_ctr-1].x , blocks[block_ctr-1].y + BLOCK_HEIGHT, 
     HERO_WIDTH, HERO_HEIGHT, hero_img);
@@ -396,7 +425,6 @@ void drawZombies(void) {
 }
 
 /* Sprite Setup Functions */
-
 void drawBlocks(void) {
     for (int i = 0; i < block_ctr; i++) {
         sprite_draw(&blocks[i]);
@@ -468,19 +496,6 @@ void drawSprites(void) {
     setup_direct();
 }
 
-void playerPositionMessage(void) {
-    usb_serial_send(strcpy_P(progmeme, PSTR("\r\nPlayer position: (")));
-	usb_serial_send_int((int)hero.x);
-	usb_serial_putchar(',');
-	usb_serial_send_int((int)hero.y);
-	usb_serial_send(")\r\n");
-}
-void startSerialMessage(void) {
-    usb_serial_send(strcpy_P(progmeme, PSTR("\nGame has started")));
-    playerPositionMessage();
-}
-
-
 void setupGame(void) {
     setupBlocks();
     startBlock();
@@ -493,55 +508,6 @@ void setupGame(void) {
 }
 
 /** Game Mechanics **/
-
-void gameTimeMessage(void) {
-    int now = current_time();
-    int minutes = floor(now/60);
-    int seconds = floor(now % 60);
-    usb_serial_send(strcpy_P(progmeme, PSTR("\r\n Time: "))); usb_serial_send_int((int) minutes); usb_serial_send(":"); usb_serial_send_int((int) seconds);
-}
-
-void livesMessage(void) {
-    usb_serial_send(strcpy_P(progmeme, PSTR("\r\n Lives remaining: "))); usb_serial_send_int((int)lives);
-}
-
-void scoreMessage(void) {
-    usb_serial_send(strcpy_P(progmeme, PSTR("\r\n Current score: "))); usb_serial_send_int((int) score); 
-}
-
-void playerDeathMessage(char * reason) {
-    
-    usb_serial_send(strcpy_P(progmeme, PSTR("\n\rPlayer has died")));
-    usb_serial_send(strcpy_P(progmeme, PSTR("\r\n Cause of death: "))); 
-    usb_serial_send(reason);
-    livesMessage();
-    scoreMessage();
-    gameTimeMessage();
-}
-
-void playerTreasureMessage(void) {
-    usb_serial_send(strcpy_P(progmeme, PSTR("\n\rPlayer collided with treasure")));
-    scoreMessage();
-    livesMessage();
-    gameTimeMessage();
-    playerPositionMessage();
-}
-
-void playerRespawnMessage(void) {
-    usb_serial_send(strcpy_P(progmeme, PSTR("\n\rPlayer respawned")));
-    playerPositionMessage();
-}
-
-void pauseMessage(void) {
-    usb_serial_send(strcpy_P(progmeme, PSTR("\n\rGame Paused")));
-    livesMessage();
-    scoreMessage();
-    gameTimeMessage();
-    usb_serial_send(strcpy_P(progmeme, PSTR("\r\nNumber of zombies: "))); usb_serial_send_int((int) zombieCount);
-    usb_serial_send(strcpy_P(progmeme, PSTR("\r\nFood in inventory: "))); usb_serial_send_int((int) foodCount);
-}
-
-
 void specialisedRespawn(void) {
     if (respawn) {
         if (contrast_ctr < 10) {
@@ -826,28 +792,12 @@ bool isZombieStanding(Sprite zomb) {
     for (int i = 0; i < block_ctr; i++) {
         spritePos_t z = spritePos(zomb);
         spritePos_t b = spritePos(blocks[i]);
-        if (z.bottom == b.top && z.left >= b.left - 2 && z.right <= b.right + 2) {
+        if (z.bottom == b.top && z.right >= b.left && z.left <= b.right) {
             isStand = true;
         }
     }
     return isStand;
 }
-
-void zombieMessage(void) {
-    usb_serial_send(strcpy_P(progmeme, PSTR("\r\nZombies spawning!")));
-    usb_serial_send(strcpy_P(progmeme, PSTR("\r\nNumber of zombies: "))); usb_serial_send_int((int) zombieCount);
-    gameTimeMessage();
-    livesMessage();
-    scoreMessage();
-}
-
-void zombieFoodMessage(void) {
-    usb_serial_send(strcpy_P(progmeme, PSTR("\r\nZombie collided with food")));
-    usb_serial_send(strcpy_P(progmeme, PSTR("\r\nNumber of zombies: "))); usb_serial_send_int((int) zombieCount);
-    usb_serial_send(strcpy_P(progmeme, PSTR("\r\nFood in inventory: "))); usb_serial_send_int((int) foodCount);
-    gameTimeMessage();
-}
-
 
 
 volatile uint32_t timer3_ctr = 0;
@@ -875,8 +825,6 @@ void flashingLEDS(void) {
         clearLEDS();
     }
 }
-
-
 
 void zombieTimer(void) {
     if (zombieCount <= 0) {
@@ -935,11 +883,11 @@ void zombieMovement(void) {
         bool zombieStand = isZombieStanding(zombie[i]);
         if (!zombieStand && zombie[i].dx != 0) {
             if (zombie[i].dx > 0) {
-                zombie[i].x -= 2; 
+                zombie[i].x -= 3; 
                 zright[i] = 0;
             }
             if (zombie[i].dx < 0) {
-                zombie[i].x += 2;
+                zombie[i].x += 3;
                 zright[i] = 1;
             }
         } else if (zombieStand) {
@@ -1202,78 +1150,11 @@ void readButtons() {
 
 
 
-
-void teensySetup(void) {
-    set_clock_speed(CPU_8MHz);
-    enableInput();
-    adc_init();
-    lcd_init(LCD_DEFAULT_CONTRAST);
-    lcd_clear();
-    //Initialise timer 0 for debounce
-    TCCR0A = 0;
-    TCCR0B = 0x04;
-    TIMSK0 = 1;
-
-    //Initialise timer 1 in normal mode (code from AMS 9 ex2)
-    TCCR1A = 0;
-    TCCR1B = 0b00000011;
-    TIMSK1 = 1;
-
-    //Initialise timer 3 for zombie led flashing 
-    TCCR3A = 0;
-    TCCR3B = 0b00000010;
-    TIMSK3 = 1;
-    /** FROM TOPIC 11 PWM EXAMPLE **/
-    TC4H = OVERFLOW_TOP >> 8;
-	OCR4C = OVERFLOW_TOP & 0xff;
-
-	TCCR4A = BIT(COM4A1) | BIT(PWM4A);
-	SET_BIT(DDRC, 7);
-
-	TCCR4B = BIT(CS42) | BIT(CS41) | BIT(CS40);
-
-	TCCR4D = 0;
-
-    sei();
-    /** LED0 and LED 1 */
-    SET_BIT(DDRB, 2);
-    SET_BIT(DDRB, 3);
-    CLEAR_BIT(PORTB, 2);
-    CLEAR_BIT(PORTB, 3);
-
-    /** Set up serial communication **/
-    usb_init();
-}
-
-/** PWM **/
-void set_duty_cycle(int duty_cycle) {
-	// (a)	Set bits 8 and 9 of Output Compare Register 4A.
-	TC4H = duty_cycle >> 8;
-
-	// (b)	Set bits 0..7 of Output Compare Register 4A.
-	OCR4A = duty_cycle & 0xff;
-}
-
-
-
-void freeSprites(void) {
-    for(int i = 0; i < block_ctr; i++) {
-        free(&blocks[i]);
-    }
-    for(int j   = 0; j < 5; j++) {
-        free(&food[j]);
-        free(&zombie[j]);
-    }
-    free(&hero);
-    free(&treasure);
-}
-
-
 void restartGame(void) {
     clear_screen();
     end_game = false;
     paused = false;
-    toggle = false;
+    toggle = true;
     moveRight = false;
     moveLeft = false;
     movingRight = true; 
@@ -1292,14 +1173,6 @@ void restartGame(void) {
     setupGame();
     show_screen();
 
-}
-
-void gameoverMessage(void) {
-    usb_serial_send(strcpy_P(progmeme, PSTR("\n\rGame over")));
-    livesMessage();
-    scoreMessage();
-    gameTimeMessage();
-    usb_serial_send(strcpy_P(progmeme, PSTR("\r\nZombies fed: "))); usb_serial_send_int((int) numberOfZombiesFed);
 }
 
 
@@ -1361,45 +1234,6 @@ void pause(void) {
     }
 }
 
-void livesDisplay(void) {
-    char liveS[15];
-    sprintf(liveS, "%d", lives);
-    draw_string(10, 1, strcpy_P(progmeme, PSTR("Lives:")), FG_COLOUR);
-    draw_string(45, 1, liveS, FG_COLOUR);
-}
-void scoreDisplay(void) {
-    char scoreS[15];
-    sprintf(scoreS, "%d", score);
-    draw_string(10, 11, strcpy_P(progmeme, PSTR("Score:")), FG_COLOUR);
-    draw_string(45, 11, scoreS, FG_COLOUR);
-}
-
-void timeDisplay(void) {
-    char minuteS[15];
-    char secondS[15];
-    int minutes = floor(time_at_pause/60);
-    int seconds = floor(time_at_pause % 60);
-    sprintf(minuteS, "%02d", minutes);
-    sprintf(secondS, "%02d", seconds);
-    draw_string(10, 21, strcpy_P(progmeme, PSTR("Time:")), FG_COLOUR);
-    draw_string(45, 21, minuteS, FG_COLOUR);  
-    draw_string(55, 21, ":", FG_COLOUR);
-    draw_string(59, 21, secondS, FG_COLOUR);  
-}
-
-void foodDisplay(void) {
-    char foodS[15];
-    sprintf(foodS, "%d", foodCount);
-    draw_string(10, 31, strcpy_P(progmeme, PSTR("Food:")), FG_COLOUR);
-    draw_string(45, 31, foodS, FG_COLOUR);
-}
-
-void zombieDisplay(void) {
-    char zombieS[15];
-    sprintf(zombieS, "%d", zombieCount);
-    draw_string(10, 41, strcpy_P(progmeme, PSTR("Zombies:")), FG_COLOUR);
-    draw_string(50, 41, zombieS, FG_COLOUR);
-}
 
 int c;
 void pauseDisplay(void) {
@@ -1425,9 +1259,6 @@ void pauseDisplay(void) {
 
     }
 }
-
-
-
 
 void introScreen(void) {
     bool intro = true;
@@ -1484,8 +1315,6 @@ void process(void) {
     }
 }
 
-
-
 int main(void) {
     teensySetup();
     introScreen();
@@ -1498,3 +1327,235 @@ int main(void) {
 }
 
 
+void teensySetup(void) {
+    set_clock_speed(CPU_8MHz);
+    enableInput();
+    adc_init();
+    lcd_init(LCD_DEFAULT_CONTRAST);
+    lcd_clear();
+    //Initialise timer 0 for debounce
+    TCCR0A = 0;
+    TCCR0B = 0x04;
+    TIMSK0 = 1;
+
+    //Initialise timer 1 in normal mode (code from AMS 9 ex2)
+    TCCR1A = 0;
+    TCCR1B = 0b00000011;
+    TIMSK1 = 1;
+
+    //Initialise timer 3 for zombie led flashing 
+    TCCR3A = 0;
+    TCCR3B = 0b00000010;
+    TIMSK3 = 1;
+    /** FROM TOPIC 11 PWM EXAMPLE **/
+    TC4H = OVERFLOW_TOP >> 8;
+	OCR4C = OVERFLOW_TOP & 0xff;
+
+	TCCR4A = BIT(COM4A1) | BIT(PWM4A);
+	SET_BIT(DDRC, 7);
+
+	TCCR4B = BIT(CS42) | BIT(CS41) | BIT(CS40);
+
+	TCCR4D = 0;
+
+    sei();
+    /** LED0 and LED 1 */
+    SET_BIT(DDRB, 2);
+    SET_BIT(DDRB, 3);
+    CLEAR_BIT(PORTB, 2);
+    CLEAR_BIT(PORTB, 3);
+
+    /** Set up serial communication **/
+    usb_init();
+}
+
+/** PWM **/
+void set_duty_cycle(int duty_cycle) {
+	// (a)	Set bits 8 and 9 of Output Compare Register 4A.
+	TC4H = duty_cycle >> 8;
+
+	// (b)	Set bits 0..7 of Output Compare Register 4A.
+	OCR4A = duty_cycle & 0xff;
+}
+/** #####################################
+ *  ADC FROM adc example
+ * ####################################**/
+
+void adc_init() {
+    //ADC Enable and prescaler of 128
+    ADCSRA = (1 << ADEN) | (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0);
+}
+
+uint16_t adc_read(uint8_t channel) {
+    ADMUX = (channel & ((1 << 5) - 1)) | (1 << REFS0);
+    ADCSRB = (channel & (1 << 5));
+
+    ADCSRA |= (1 << ADSC);
+
+    while ( ADCSRA & (1 << ADSC)) {}
+    return ADC;
+}
+
+/** #####################################
+ *  SERIAL COMMMUNICATION FROM usb_sprite example
+ * ####################################**/
+
+void usb_serial_send(char * message) {
+	// Cast to avoid "error: pointer targets in passing argument 1 
+	//	of 'usb_serial_write' differ in signedness"
+	usb_serial_write((uint8_t *) message, strlen(message));
+}
+
+
+void usb_serial_send_int(int value) {
+	static char buffer[8];
+	snprintf(buffer, sizeof(buffer), "%d", value);
+	usb_serial_send( buffer );
+}
+
+void playerPositionMessage(void) {
+    usb_serial_send(strcpy_P(progmeme, PSTR("\r\nPlayer position: (")));
+	usb_serial_send_int((int)hero.x);
+	usb_serial_putchar(',');
+	usb_serial_send_int((int)hero.y);
+	usb_serial_send(")\r\n");
+}
+void startSerialMessage(void) {
+    usb_serial_send(strcpy_P(progmeme, PSTR("\nGame has started")));
+    playerPositionMessage();
+}
+
+void gameTimeMessage(void) {
+    int now = current_time();
+    int minutes = floor(now/60);
+    int seconds = floor(now % 60);
+    usb_serial_send(strcpy_P(progmeme, PSTR("\r\n Time: "))); usb_serial_send_int((int) minutes); usb_serial_send(":"); usb_serial_send_int((int) seconds);
+}
+
+void livesMessage(void) {
+    usb_serial_send(strcpy_P(progmeme, PSTR("\r\n Lives remaining: "))); usb_serial_send_int((int)lives);
+}
+
+void scoreMessage(void) {
+    usb_serial_send(strcpy_P(progmeme, PSTR("\r\n Current score: "))); usb_serial_send_int((int) score); 
+}
+
+void playerDeathMessage(char * reason) {
+    
+    usb_serial_send(strcpy_P(progmeme, PSTR("\n\rPlayer has died")));
+    usb_serial_send(strcpy_P(progmeme, PSTR("\r\n Cause of death: "))); 
+    usb_serial_send(reason);
+    livesMessage();
+    scoreMessage();
+    gameTimeMessage();
+}
+
+void playerTreasureMessage(void) {
+    usb_serial_send(strcpy_P(progmeme, PSTR("\n\rPlayer collided with treasure")));
+    scoreMessage();
+    livesMessage();
+    gameTimeMessage();
+    playerPositionMessage();
+}
+
+void playerRespawnMessage(void) {
+    usb_serial_send(strcpy_P(progmeme, PSTR("\n\rPlayer respawned")));
+    playerPositionMessage();
+}
+
+void pauseMessage(void) {
+    usb_serial_send(strcpy_P(progmeme, PSTR("\n\rGame Paused")));
+    livesMessage();
+    scoreMessage();
+    gameTimeMessage();
+    usb_serial_send(strcpy_P(progmeme, PSTR("\r\nNumber of zombies: "))); usb_serial_send_int((int) zombieCount);
+    usb_serial_send(strcpy_P(progmeme, PSTR("\r\nFood in inventory: "))); usb_serial_send_int((int) foodCount);
+}
+
+void zombieMessage(void) {
+    usb_serial_send(strcpy_P(progmeme, PSTR("\r\nZombies spawning!")));
+    usb_serial_send(strcpy_P(progmeme, PSTR("\r\nNumber of zombies: "))); usb_serial_send_int((int) zombieCount);
+    gameTimeMessage();
+    livesMessage();
+    scoreMessage();
+}
+
+void zombieFoodMessage(void) {
+    usb_serial_send(strcpy_P(progmeme, PSTR("\r\nZombie collided with food")));
+    usb_serial_send(strcpy_P(progmeme, PSTR("\r\nNumber of zombies: "))); usb_serial_send_int((int) zombieCount);
+    usb_serial_send(strcpy_P(progmeme, PSTR("\r\nFood in inventory: "))); usb_serial_send_int((int) foodCount);
+    gameTimeMessage();
+}
+
+void gameoverMessage(void) {
+    usb_serial_send(strcpy_P(progmeme, PSTR("\n\rGame over")));
+    livesMessage();
+    scoreMessage();
+    gameTimeMessage();
+    usb_serial_send(strcpy_P(progmeme, PSTR("\r\nZombies fed: "))); usb_serial_send_int((int) numberOfZombiesFed);
+}
+
+
+//Direct control of LCD Write (some code based of topic 8 example 3)
+void setup_direct(void) {
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            uint8_t bit_val = BIT_VALUE(hero_img[j], (7 - i));
+            WRITE_BIT(hero_direct[i], j, bit_val);
+        }
+    }
+}
+
+void livesDisplay(void) {
+    char liveS[15];
+    sprintf(liveS, "%d", lives);
+    draw_string(10, 1, strcpy_P(progmeme, PSTR("Lives:")), FG_COLOUR);
+    draw_string(45, 1, liveS, FG_COLOUR);
+}
+void scoreDisplay(void) {
+    char scoreS[15];
+    sprintf(scoreS, "%d", score);
+    draw_string(10, 11, strcpy_P(progmeme, PSTR("Score:")), FG_COLOUR);
+    draw_string(45, 11, scoreS, FG_COLOUR);
+}
+
+void timeDisplay(void) {
+    char minuteS[15];
+    char secondS[15];
+    int minutes = floor(time_at_pause/60);
+    int seconds = floor(time_at_pause % 60);
+    sprintf(minuteS, "%02d", minutes);
+    sprintf(secondS, "%02d", seconds);
+    draw_string(10, 21, strcpy_P(progmeme, PSTR("Time:")), FG_COLOUR);
+    draw_string(45, 21, minuteS, FG_COLOUR);  
+    draw_string(55, 21, ":", FG_COLOUR);
+    draw_string(59, 21, secondS, FG_COLOUR);  
+}
+
+void foodDisplay(void) {
+    char foodS[15];
+    sprintf(foodS, "%d", foodCount);
+    draw_string(10, 31, strcpy_P(progmeme, PSTR("Food:")), FG_COLOUR);
+    draw_string(45, 31, foodS, FG_COLOUR);
+}
+
+void zombieDisplay(void) {
+    char zombieS[15];
+    sprintf(zombieS, "%d", zombieCount);
+    draw_string(10, 41, strcpy_P(progmeme, PSTR("Zombies:")), FG_COLOUR);
+    draw_string(50, 41, zombieS, FG_COLOUR);
+}
+
+/** #####################################
+ *  GAME TIMER (code from ams 9 ex 2)
+ * ####################################**/
+
+volatile uint32_t time_ctr = 0;
+//interrup service 
+ISR(TIMER1_OVF_vect) {
+    time_ctr++;
+}
+
+double current_time(void) {
+    return (time_ctr * 65536.0 + TCNT1) * 64 / 8e6;
+}
