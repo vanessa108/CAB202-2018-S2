@@ -138,25 +138,6 @@ Sprite zombie[5];
 char progmeme[200];
 
 /**Sprite Bitmaps **/ 
-uint8_t hero_img [8] =  {
-    0b00000100,
-    0b01110100,
-    0b01110100,
-    0b00100100,
-    0b11111000,
-    0b00100000,
-    0b01010000,
-    0b10001000,
-};
-
-
-
-uint8_t safe_img [4] = {
-    0b11111111,
-    0b11111111,
-    0b11111111,
-    0b11111111,
-};
 static const PROGMEM uint8_t forbidden_img [4] = {
     0b10101010,
     0b10100000,
@@ -188,6 +169,25 @@ static const PROGMEM uint8_t zombie_img[7] = {
     0b01010000,
     0b10001000,
 };
+
+uint8_t safe_img [4] = {
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+};
+
+uint8_t hero_img [8] =  {
+    0b00000100,
+    0b01110100,
+    0b01110100,
+    0b00100100,
+    0b11111000,
+    0b00100000,
+    0b01010000,
+    0b10001000,
+};
+
 
 uint8_t hero_direct[8];
 
@@ -602,8 +602,8 @@ bool isHeroHolding(void) {
     for (int i = 0; i < block_ctr; i++) {
        spritePos_t blockPos = spritePos(blocks[i]);
        spritePos_t heroPos = spritePos(hero); 
-       if (heroPos.top == blockPos.bottom  && heroPos.right <= blockPos.right + 5 && heroPos.left >= blockPos.left - 5) {
-           if (blocks[i].bitmap == safe_img && pixel_level_collision( hero, blocks[i])) {
+       if (floor(heroPos.top) == blockPos.bottom && heroPos.right <= blockPos.right + 5 && heroPos.left >= blockPos.left - 5) {
+           if (blocks[i].bitmap == safe_img  && pixel_level_collision( hero, blocks[i])) {
                return true;
            } else if (blocks[i].bitmap != safe_img) {
                 lives -= 1;
@@ -1306,7 +1306,7 @@ void gameoverMessage(void) {
 void gameoverScreen(void) {
     while (wait) {
         direct_animation = true;
-        if (direct_y > LCD_HEIGHT) {
+        if (direct_y > 44) {
             direct_animation = false;
         }
         int c;
@@ -1473,6 +1473,7 @@ void process(void) {
     drawSprites();
     if (lives <= 0) {
         endTime = current_time();
+        clearLEDS();
         clear_screen();
         show_screen();
         gameoverMessage();
