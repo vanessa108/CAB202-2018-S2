@@ -34,7 +34,7 @@
 #define FOOD_HEIGHT (2)
 #define FOOD_WIDTH (2)
 
-#define CHANCE_EMPTY (0.3)
+#define CHANCE_EMPTY (0.28)
 #define CHANCE_FORBIDDEN (0.2)
 
 //PWM FROM EXAMPLE
@@ -343,10 +343,10 @@ void direct_message(void) {
 int row[3] = {21, 33, 45};
 void setupBlocks(void) {
     int num_rows = 3;
+    int forbidden_ctr = 0;
+        int safe_ctr = 0;
     int num_cols = LCD_WIDTH / (BLOCK_WIDTH + 2);
     while (block_ctr < 20) {
-        int forbidden_ctr = 0;
-        int safe_ctr = 0;
         for (int row_num = 0; row_num < num_rows; row_num++) {
             srand(TCNT0);
             for (int col_num = 0; col_num < num_cols; col_num++) {
@@ -362,19 +362,16 @@ void setupBlocks(void) {
                         continue;
                     } else {
                         isSafe = ( (double) rand()/RAND_MAX > CHANCE_FORBIDDEN);
-                        if (isSafe) {
-                            safe_ctr++;
-                        } else if (!isSafe) {
-                            forbidden_ctr++;
-                        }
                     }
                     int col_width = 12;
                     double x = col_num * col_width;
                     double y = row[row_num];
                     if (isSafe) {
                         sprite_init(&blocks[block_ctr], x, y, BLOCK_WIDTH, BLOCK_HEIGHT, safe_img);
+                        safe_ctr++;
                     } else if (!isSafe) {
                         sprite_init(&blocks[block_ctr], x, y, BLOCK_WIDTH, BLOCK_HEIGHT, load_rom_bitmap(forbidden_img,4));
+                        forbidden_ctr++;
                     }
                     block_ctr++;
                     
